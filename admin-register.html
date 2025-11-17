@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký Admin - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub Admin</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="login.html">Đăng Nhập</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">🔐 Đăng Ký Tài Khoản Admin</h2>
+            <p style="text-align: center; color: var(--text-gray); margin-bottom: 2rem;">
+                Chỉ dành cho quản trị viên được ủy quyền
+            </p>
+            
+            <form id="adminRegisterForm">
+                <div class="form-group">
+                    <label for="fullName">Họ và tên *</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Mật khẩu *</label>
+                    <input type="password" id="password" name="password" required minlength="6">
+                    <small style="color: var(--text-gray);">Tối thiểu 6 ký tự</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Xác nhận mật khẩu *</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="adminRole">Vai trò Admin *</label>
+                    <select id="adminRole" name="adminRole" required>
+                        <option value="">Chọn vai trò</option>
+                        <option value="super_admin">Super Admin (Toàn quyền)</option>
+                        <option value="admin">Admin (Quản lý chung)</option>
+                        <option value="moderator">Moderator (Kiểm duyệt)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="securityCode">Mã Bảo Mật Admin *</label>
+                    <input type="text" id="securityCode" name="securityCode" required 
+                           value="DESIGNHUB_ADMIN_110122174" readonly
+                           style="background-color: var(--light-brown); cursor: not-allowed;">
+                    <small style="color: var(--text-gray);">✅ Mã bảo mật đã được điền sẵn</small>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    🔒 Đăng Ký Admin
+                </button>
+            </form>
+
+            <div style="margin-top: 2rem; padding: 1rem; background: var(--light-brown); border-radius: 5px;">
+                <h4 style="margin-bottom: 0.5rem;">⚠️ Lưu ý quan trọng:</h4>
+                <ul style="margin-left: 1.5rem; color: var(--text-gray);">
+                    <li>Mã bảo mật admin là bí mật tuyệt đối</li>
+                    <li>Không chia sẻ mã với người không được ủy quyền</li>
+                    <li>Tài khoản admin có toàn quyền trên hệ thống</li>
+                    <li>Mọi hành động sẽ được ghi log</li>
+                </ul>
+            </div>
+
+            <p style="text-align: center; margin-top: 1rem;">
+                <a href="login.html" style="color: var(--dark-brown);">← Quay lại đăng nhập</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+        <p>Liên hệ: NguyenVoMinhThu_110122174</p>
+    </footer>
+
+    <script src="js/admin-register.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lịch Sử Thanh Toán - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Bảng Điều Khiển</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="payment-history.html" class="active">Thanh Toán</a></li>
+                <li><a href="profile.html">Hồ Sơ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1>💰 Lịch Sử Thanh Toán</h1>
+            <div id="stats" style="display: flex; gap: 1rem;">
+                <!-- Stats will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Filter -->
+        <div class="card" style="margin-bottom: 2rem;">
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <select id="filterType" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                    <option value="all">Tất cả giao dịch</option>
+                    <option value="sent">Đã gửi</option>
+                    <option value="received">Đã nhận</option>
+                </select>
+                
+                <select id="filterMethod" style="padding: 0.5rem; border: 1px solid var(--border-color); border-radius: 5px;">
+                    <option value="all">Tất cả phương thức</option>
+                    <option value="bank_transfer">Chuyển khoản</option>
+                    <option value="momo">MoMo</option>
+                    <option value="zalopay">ZaloPay</option>
+                    <option value="credit_card">Thẻ tín dụng</option>
+                </select>
+
+                <button onclick="applyFilters()" class="btn btn-secondary">🔍 Lọc</button>
+            </div>
+        </div>
+
+        <!-- Transactions List -->
+        <div id="transactionsList">
+            <div style="text-align: center; padding: 3rem;">
+                <div class="spinner"></div>
+                <p>Đang tải lịch sử thanh toán...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+        <p>Liên hệ: NguyenVoMinhThu_110122174</p>
+    </footer>
+
+    <script src="js/payment-history.js"></script>
+</body>
+</html>

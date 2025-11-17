@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đánh Giá Dự Án - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .star-rating {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 2rem;
+            margin: 1rem 0;
+        }
+        .star {
+            cursor: pointer;
+            color: #ddd;
+            transition: color 0.2s;
+        }
+        .star:hover,
+        .star.active {
+            color: #FFD700;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Bảng Điều Khiển</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="payment-history.html">Thanh Toán</a></li>
+                <li><a href="profile.html">Hồ Sơ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>⭐ Đánh Giá Dự Án</h1>
+
+        <div style="max-width: 800px; margin: 2rem auto;">
+            <div class="card">
+                <h2>Thông Tin Dự Án</h2>
+                <div style="padding: 1rem; background: var(--light-brown); border-radius: 5px; margin-top: 1rem;">
+                    <h3 id="projectTitle">Thiết Kế Logo Công Ty</h3>
+                    <p><strong>Nhà thiết kế:</strong> <span id="designerName">Nguyễn Văn A</span></p>
+                    <p><strong>Hoàn thành:</strong> <span id="completedDate">15/11/2025</span></p>
+                    <p><strong>Giá trị:</strong> <span id="projectValue">5.000.000 VNĐ</span></p>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <h2>Đánh Giá Của Bạn</h2>
+                <form id="reviewForm">
+                    <div class="form-group">
+                        <label>Đánh giá tổng thể *</label>
+                        <div class="star-rating" id="overallRating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <input type="hidden" id="ratingValue" name="rating" required>
+                        <small style="color: var(--text-gray);">Nhấn vào sao để đánh giá</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Chất lượng thiết kế *</label>
+                        <div class="star-rating" id="qualityRating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <input type="hidden" id="qualityValue" name="quality" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Giao tiếp & Hỗ trợ *</label>
+                        <div class="star-rating" id="communicationRating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <input type="hidden" id="communicationValue" name="communication" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Thời gian hoàn thành *</label>
+                        <div class="star-rating" id="timeRating">
+                            <span class="star" data-rating="1">★</span>
+                            <span class="star" data-rating="2">★</span>
+                            <span class="star" data-rating="3">★</span>
+                            <span class="star" data-rating="4">★</span>
+                            <span class="star" data-rating="5">★</span>
+                        </div>
+                        <input type="hidden" id="timeValue" name="time" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="comment">Nhận xét chi tiết *</label>
+                        <textarea id="comment" name="comment" rows="5" required 
+                                  placeholder="Chia sẻ trải nghiệm của bạn về dự án này..."></textarea>
+                        <small style="color: var(--text-gray);">Tối thiểu 50 ký tự</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="recommend" name="recommend">
+                            Tôi sẽ giới thiệu nhà thiết kế này cho người khác
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        ⭐ Gửi Đánh Giá
+                    </button>
+                </form>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <h3>💡 Lưu Ý</h3>
+                <ul style="margin-left: 1.5rem; color: var(--text-gray);">
+                    <li>Đánh giá của bạn sẽ được hiển thị công khai</li>
+                    <li>Hãy đánh giá trung thực và khách quan</li>
+                    <li>Đánh giá giúp cải thiện chất lượng dịch vụ</li>
+                    <li>Bạn có thể chỉnh sửa đánh giá trong 7 ngày</li>
+                </ul>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+        <p>Liên hệ: NguyenVoMinhThu_110122174</p>
+    </footer>
+
+    <script src="js/review.js"></script>
+</body>
+</html>

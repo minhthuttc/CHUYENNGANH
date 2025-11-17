@@ -1,0 +1,167 @@
+╔══════════════════════════════════════════════════════════════╗
+║          📄 HƯỚNG DẪN XEM CHI TIẾT DỰ ÁN                    ║
+╚══════════════════════════════════════════════════════════════╝
+
+🚀 CÁCH 1: TỪ TRANG "DỰ ÁN CỦA TÔI" (KHUYẾN NGHỊ)
+================================================
+
+1. Mở trình duyệt và truy cập:
+   http://localhost:3000/my-projects.html
+
+2. Đăng nhập nếu chưa đăng nhập
+
+3. Bạn sẽ thấy danh sách TẤT CẢ dự án của mình
+
+4. Click vào BẤT KỲ dự án nào để xem chi tiết
+
+5. Trong trang chi tiết, bạn sẽ thấy:
+   ✅ Thông tin đầy đủ về dự án
+   ✅ Nút "💳 Thanh Toán" (nếu là khách hàng)
+   ✅ Nút "⭐ Đánh Giá" (sau khi thanh toán)
+   ✅ Các nút khác tùy theo vai trò
+
+
+🎯 CÁCH 2: TỪ TRANG DEMO
+================================================
+
+1. Truy cập: http://localhost:3000/demo-payment.html
+
+2. Nhấn nút "Tạo Dự Án Demo"
+
+3. Sau khi tạo xong, nhấn "Thanh Toán Ngay"
+   hoặc "Xem Chi Tiết"
+
+
+📋 CÁCH 3: TRỰC TIẾP VỚI ID
+================================================
+
+Nếu bạn biết ID của dự án:
+   http://localhost:3000/project-detail.html?id=<ID_DỰ_ÁN>
+
+
+╔══════════════════════════════════════════════════════════════╗
+║          TÍNH NĂNG TRANG "DỰ ÁN CỦA TÔI"                    ║
+╚══════════════════════════════════════════════════════════════╝
+
+✅ Hiển thị TẤT CẢ dự án của bạn
+✅ Lọc theo trạng thái:
+   - Tất cả
+   - Đang tuyển
+   - Đang thực hiện
+   - Đang xem xét
+   - Hoàn thành
+
+✅ Thông tin mỗi dự án:
+   - Tiêu đề và mô tả
+   - Ngân sách
+   - Hạn chót
+   - Khách hàng
+   - Nhà thiết kế (nếu có)
+   - Trạng thái
+
+✅ Nút hành động nhanh:
+   - 👁️ Xem chi tiết
+   - 💳 Thanh toán (nếu sẵn sàng)
+
+✅ Tạo dự án demo để test
+
+
+╔══════════════════════════════════════════════════════════════╗
+║          TÍNH NĂNG TRANG CHI TIẾT DỰ ÁN                     ║
+╚══════════════════════════════════════════════════════════════╝
+
+✅ Thông tin đầy đủ về dự án
+✅ Mô tả chi tiết
+✅ Yêu cầu và kỹ năng
+✅ Thông tin khách hàng
+✅ Không gian làm việc (chat, files)
+✅ Tiến độ dự án
+
+✅ Nút hành động (tùy vai trò):
+   - 💳 Thanh Toán (cho khách hàng)
+   - ⭐ Đánh Giá (sau thanh toán)
+   - ✍️ Ứng Tuyển (cho designer)
+   - 📊 Cập Nhật Tiến Độ (cho designer)
+
+
+╔══════════════════════════════════════════════════════════════╗
+║          LUỒNG HOÀN CHỈNH                                    ║
+╚══════════════════════════════════════════════════════════════╝
+
+1. Đăng nhập
+   ↓
+2. Vào "Dự Án Của Tôi"
+   http://localhost:3000/my-projects.html
+   ↓
+3. Tạo dự án demo (nếu chưa có)
+   ↓
+4. Click vào dự án để xem chi tiết
+   ↓
+5. Nhấn "💳 Thanh Toán" (nếu là khách hàng)
+   ↓
+6. Chọn phương thức và thanh toán
+   ↓
+7. Xem lịch sử thanh toán
+   http://localhost:3000/payment-history.html
+
+
+╔══════════════════════════════════════════════════════════════╗
+║          TROUBLESHOOTING                                     ║
+╚══════════════════════════════════════════════════════════════╝
+
+❌ Lỗi "Không tìm thấy dự án"?
+   → MỞ TRANG TEST: http://localhost:3000/test-projects.html
+   → Nhấn "Kiểm Tra Dự Án" để xem có dự án nào không
+   → Nhấn "Tạo Dự Án Test" để tạo dự án mới
+   → Click vào dự án để xem chi tiết
+
+❌ Không thấy dự án nào?
+   → Mở: http://localhost:3000/test-projects.html
+   → Nhấn "Tạo Dự Án Test"
+   → Hoặc vào my-projects.html và tạo dự án demo
+
+❌ Không thấy nút thanh toán?
+   → Đảm bảo bạn là KHÁCH HÀNG của dự án
+   → Dự án phải ở trạng thái "review" hoặc "completed"
+   → Thử tạo dự án demo với trạng thái "review"
+
+❌ Lỗi "Không thể tải dự án"?
+   → Kiểm tra server đang chạy
+   → Kiểm tra đã đăng nhập chưa
+   → Mở test-projects.html để kiểm tra database
+   → Xem console log để debug
+
+❌ Trang trống hoặc loading mãi?
+   → Mở Developer Tools (F12)
+   → Xem tab Console để xem lỗi
+   → Kiểm tra tab Network để xem API calls
+   → Thử mở test-projects.html để test
+
+
+╔══════════════════════════════════════════════════════════════╗
+║          DEMO NHANH                                          ║
+╚══════════════════════════════════════════════════════════════╝
+
+Muốn test ngay? Làm theo 5 bước này:
+
+1. node server.js
+2. Mở: http://localhost:3000/my-projects.html
+3. Đăng nhập
+4. Nhấn "Tạo Dự Án Mới"
+5. Click vào dự án vừa tạo
+
+XONG! Bạn đã vào trang chi tiết dự án! 🎉
+
+
+╔══════════════════════════════════════════════════════════════╗
+║          CÁC TRANG LIÊN QUAN                                 ║
+╚══════════════════════════════════════════════════════════════╝
+
+📁 Dự án của tôi:     my-projects.html
+📄 Chi tiết dự án:    project-detail.html?id=<ID>
+💳 Thanh toán:        payment.html?projectId=<ID>
+📜 Lịch sử:          payment-history.html
+🎯 Demo:             demo-payment.html
+
+
+Chúc bạn test thành công! 🚀

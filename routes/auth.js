@@ -7,7 +7,7 @@ const User = require('../models/User');
 // Đăng ký
 router.post('/register', async (req, res) => {
   try {
-    const { fullName, email, password, phone, userType } = req.body;
+    const { fullName, email, password, userType } = req.body;
 
     // Kiểm tra email đã tồn tại
     const existingUser = await User.findOne({ email });
@@ -23,7 +23,7 @@ router.post('/register', async (req, res) => {
       fullName,
       email,
       password: hashedPassword,
-      phone,
+      phone: '',
       userType
     });
 
@@ -34,6 +34,74 @@ router.post('/register', async (req, res) => {
       userId: user._id 
     });
   } catch (error) {
+    res.status(500).json({ message: 'Lỗi server', error: error.message });
+  }
+});
+
+// Đăng ký Admin với mã bảo mật
+router.post('/register-admin', async (req, res) => {
+  try {
+    const { fullName, email, password, securityCode, adminRole } = req.body;
+
+    // Mã bảo mật admin
+    const ADMIN_SECURITY_CODE = 'DESIGNHUB_ADMIN_110122174';
+
+    // Log chi tiết
+    console.log('=== KIỂM TRA MÃ BẢO MẬT ===');
+    console.log('Mã đúng:', ADMIN_SECURITY_CODE);
+    console.log('Mã nhận:', securityCode);
+    console.log('Mã sau trim:', securityCode ? securityCode.trim() : 'null');
+    console.log('Độ dài đúng:', ADMIN_SECURITY_CODE.length);
+    console.log('Độ dài nhận:', securityCode ? securityCode.length : 0);
+    console.log('Khớp:', securityCode && securityCode.trim() === ADMIN_SECURITY_CODE);
+    console.log('============================');
+
+    // Kiểm tra mã bảo mật (trim để loại bỏ khoảng trắng)
+    if (!securityCode || securityCode.trim() !== ADMIN_SECURITY_CODE) {
+      console.log('❌ Mã bảo mật không đúng!');
+      return res.status(403).json({ 
+        message: 'Mã bảo mật Admin không đúng!'
+      });
+    }
+    
+    console.log('✅ Mã bảo mật chính xác!');
+
+    // Kiểm tra email đã tồn tại
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'Email đã được sử dụng!' });
+    }
+
+    // Mã hóa mật khẩu
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Tạo admin mới
+    const admin = new User({
+      fullName,
+      email,
+      password: hashedPassword,
+      phone: '',
+      userType: 'admin',
+      adminRole: adminRole || 'admin',
+      status: 'active'
+    });
+
+    await admin.save();
+
+    // Log hoạt động
+    console.log(`✅ Admin mới được tạo: ${email} - Role: ${adminRole}`);
+
+    res.status(201).json({ 
+      message: 'Đăng ký admin thành công!',
+      userId: admin._id,
+      user: {
+        email: admin.email,
+        fullName: admin.fullName,
+        adminRole: admin.adminRole || 'admin'
+      }
+    });
+  } catch (error) {
+    console.error('❌ Lỗi đăng ký admin:', error);
     res.status(500).json({ message: 'Lỗi server', error: error.message });
   }
 });

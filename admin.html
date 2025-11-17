@@ -12,6 +12,7 @@
             <a href="index.html" class="logo">🎨 DesignHub Admin</a>
             <ul class="nav-links">
                 <li><a href="admin.html">Tổng Quan</a></li>
+                <li><a href="admin-register.html">Tạo Admin</a></li>
                 <li><a href="index.html">Đăng Xuất</a></li>
             </ul>
         </nav>
@@ -22,19 +23,19 @@
 
         <div class="dashboard-grid">
             <div class="stat-card">
-                <h2>1,234</h2>
+                <h2 id="totalUsers">0</h2>
                 <p>Tổng Người Dùng</p>
             </div>
             <div class="stat-card">
-                <h2>567</h2>
+                <h2 id="totalDesigners">0</h2>
                 <p>Nhà Thiết Kế</p>
             </div>
             <div class="stat-card">
-                <h2>345</h2>
+                <h2 id="activeProjects">0</h2>
                 <p>Dự Án Đang Hoạt Động</p>
             </div>
             <div class="stat-card">
-                <h2>2.5B VNĐ</h2>
+                <h2 id="totalRevenue">0 VNĐ</h2>
                 <p>Tổng Doanh Thu</p>
             </div>
         </div>
@@ -53,42 +54,9 @@
                         <th>Hành Động</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="usersTableBody">
                     <tr>
-                        <td>#001</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>[email]</td>
-                        <td><span class="badge badge-info">Nhà thiết kế</span></td>
-                        <td><span class="badge badge-success">Hoạt động</span></td>
-                        <td>01/01/2024</td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Xem</button>
-                            <button class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Khóa</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#002</td>
-                        <td>Trần Thị B</td>
-                        <td>[email]</td>
-                        <td><span class="badge badge-warning">Khách hàng</span></td>
-                        <td><span class="badge badge-success">Hoạt động</span></td>
-                        <td>15/02/2024</td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Xem</button>
-                            <button class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Khóa</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#003</td>
-                        <td>Lê Văn C</td>
-                        <td>[email]</td>
-                        <td><span class="badge badge-info">Nhà thiết kế</span></td>
-                        <td><span class="badge badge-warning">Tạm khóa</span></td>
-                        <td>20/03/2024</td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Xem</button>
-                            <button class="btn btn-secondary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Mở khóa</button>
-                        </td>
+                        <td colspan="7" style="text-align: center;">Đang tải dữ liệu...</td>
                     </tr>
                 </tbody>
             </table>
@@ -108,39 +76,9 @@
                         <th>Hành Động</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="projectsTableBody">
                     <tr>
-                        <td>#P001</td>
-                        <td>Thiết Kế Logo</td>
-                        <td>ABC Corp</td>
-                        <td>Nguyễn Văn A</td>
-                        <td><span class="badge badge-warning">Đang thực hiện</span></td>
-                        <td>5.000.000 VNĐ</td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Xem</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#P002</td>
-                        <td>UI/UX App</td>
-                        <td>Tech Startup</td>
-                        <td>Trần Thị B</td>
-                        <td><span class="badge badge-warning">Đang thực hiện</span></td>
-                        <td>15.000.000 VNĐ</td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Xem</button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>#P003</td>
-                        <td>Thiết Kế Brochure</td>
-                        <td>XYZ Company</td>
-                        <td>-</td>
-                        <td><span class="badge badge-success">Đang tuyển</span></td>
-                        <td>3.000.000 VNĐ</td>
-                        <td>
-                            <button class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;">Xem</button>
-                        </td>
+                        <td colspan="7" style="text-align: center;">Đang tải dữ liệu...</td>
                     </tr>
                 </tbody>
             </table>
@@ -160,33 +98,9 @@
                         <th>Ngày</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="transactionsTableBody">
                     <tr>
-                        <td>#T001</td>
-                        <td>Thiết Kế Logo</td>
-                        <td>ABC Corp</td>
-                        <td>Nguyễn Văn A</td>
-                        <td>5.000.000 VNĐ</td>
-                        <td><span class="badge badge-success">Hoàn thành</span></td>
-                        <td>05/11/2025</td>
-                    </tr>
-                    <tr>
-                        <td>#T002</td>
-                        <td>UI/UX App</td>
-                        <td>Tech Startup</td>
-                        <td>Trần Thị B</td>
-                        <td>7.500.000 VNĐ</td>
-                        <td><span class="badge badge-warning">Đang xử lý</span></td>
-                        <td>08/11/2025</td>
-                    </tr>
-                    <tr>
-                        <td>#T003</td>
-                        <td>Thiết Kế Website</td>
-                        <td>E-commerce</td>
-                        <td>Lê Văn C</td>
-                        <td>8.000.000 VNĐ</td>
-                        <td><span class="badge badge-success">Hoàn thành</span></td>
-                        <td>10/11/2025</td>
+                        <td colspan="7" style="text-align: center;">Đang tải dữ liệu...</td>
                     </tr>
                 </tbody>
             </table>
@@ -196,23 +110,23 @@
         <div class="card-grid">
             <div class="card">
                 <h3>📊 Doanh Thu Tháng Này</h3>
-                <h2 style="color: var(--dark-brown);">250.000.000 VNĐ</h2>
-                <p style="color: var(--text-gray);">Tăng 15% so với tháng trước</p>
+                <h2 style="color: var(--dark-brown);" id="monthlyRevenue">0 VNĐ</h2>
+                <p style="color: var(--text-gray);">Doanh thu trong tháng</p>
             </div>
             <div class="card">
                 <h3>👥 Người Dùng Mới</h3>
-                <h2 style="color: var(--dark-brown);">45</h2>
+                <h2 style="color: var(--dark-brown);" id="newUsers">0</h2>
                 <p style="color: var(--text-gray);">Trong 30 ngày qua</p>
             </div>
             <div class="card">
                 <h3>📁 Dự Án Hoàn Thành</h3>
-                <h2 style="color: var(--dark-brown);">78</h2>
-                <p style="color: var(--text-gray);">Trong tháng này</p>
+                <h2 style="color: var(--dark-brown);" id="completedProjects">0</h2>
+                <p style="color: var(--text-gray);">Tổng dự án hoàn thành</p>
             </div>
             <div class="card">
                 <h3>⭐ Đánh Giá Trung Bình</h3>
-                <h2 style="color: var(--dark-brown);">4.7/5.0</h2>
-                <p style="color: var(--text-gray);">Từ 234 đánh giá</p>
+                <h2 style="color: var(--dark-brown);" id="avgRating">0/5.0</h2>
+                <p style="color: var(--text-gray);">Đánh giá trung bình</p>
             </div>
         </div>
 
@@ -229,41 +143,9 @@
                             <th>Doanh Thu</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="topDesignersTableBody">
                         <tr>
-                            <td>🥇</td>
-                            <td>Nguyễn Văn A</td>
-                            <td>120</td>
-                            <td>4.9⭐</td>
-                            <td>150.000.000 VNĐ</td>
-                        </tr>
-                        <tr>
-                            <td>🥈</td>
-                            <td>Trần Thị B</td>
-                            <td>85</td>
-                            <td>4.8⭐</td>
-                            <td>120.000.000 VNĐ</td>
-                        </tr>
-                        <tr>
-                            <td>🥉</td>
-                            <td>Lê Văn C</td>
-                            <td>150</td>
-                            <td>4.7⭐</td>
-                            <td>100.000.000 VNĐ</td>
-                        </tr>
-                        <tr>
-                            <td>4</td>
-                            <td>Phạm Thị D</td>
-                            <td>65</td>
-                            <td>5.0⭐</td>
-                            <td>85.000.000 VNĐ</td>
-                        </tr>
-                        <tr>
-                            <td>5</td>
-                            <td>Hoàng Văn E</td>
-                            <td>75</td>
-                            <td>4.6⭐</td>
-                            <td>80.000.000 VNĐ</td>
+                            <td colspan="5" style="text-align: center;">Đang tải dữ liệu...</td>
                         </tr>
                     </tbody>
                 </table>
@@ -273,8 +155,9 @@
 
     <footer>
         <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+          <p>NguyenVoMinhThu_110122174</p>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="js/admin.js"></script>
 </body>
 </html>

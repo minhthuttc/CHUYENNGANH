@@ -299,3 +299,195 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+
+/* Payment Styles */
+.payment-method-option {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+    margin-bottom: 1rem;
+}
+
+.payment-method-option:hover {
+    border-color: var(--dark-brown);
+    background-color: var(--light-brown);
+}
+
+.payment-method-option input[type="radio"] {
+    margin-right: 1rem;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.payment-method-option.selected {
+    border-color: var(--dark-brown);
+    background-color: var(--light-brown);
+}
+
+/* Spinner */
+.spinner {
+    border: 4px solid var(--light-brown);
+    border-top: 4px solid var(--dark-brown);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite;
+    margin: 0 auto;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Notification */
+.notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 1rem 2rem;
+    border-radius: 5px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    z-index: 9999;
+    animation: slideIn 0.3s ease-out;
+}
+
+.notification.success {
+    background-color: #28a745;
+    color: white;
+}
+
+.notification.error {
+    background-color: #dc3545;
+    color: white;
+}
+
+.notification.info {
+    background-color: #17a2b8;
+    color: white;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOut {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(400px);
+        opacity: 0;
+    }
+}
+
+/* Payment Stats */
+.stat-card {
+    background: white;
+    border: 1px solid var(--border-color);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+    min-width: 150px;
+}
+
+/* Transaction Card */
+.transaction-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    padding: 1.5rem;
+    background: white;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+}
+
+.transaction-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.transaction-icon {
+    font-size: 2rem;
+}
+
+.transaction-amount {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.transaction-amount.sent {
+    color: #dc3545;
+}
+
+.transaction-amount.received {
+    color: #28a745;
+}
+
+/* Badge variants */
+.badge-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.badge-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+/* Active nav link */
+.nav-links a.active {
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Loading state */
+.loading {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-gray);
+}
+
+/* Empty state */
+.empty-state {
+    text-align: center;
+    padding: 3rem;
+    color: var(--text-gray);
+}
+
+.empty-state-icon {
+    font-size: 4rem;
+    margin-bottom: 1rem;
+}
+
+/* Responsive payment */
+@media (max-width: 768px) {
+    .payment-grid {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .transaction-card {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    
+    .stat-card {
+        min-width: auto;
+    }
+}

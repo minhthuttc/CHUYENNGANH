@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh Toán - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Bảng Điều Khiển</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="payment-history.html">Thanh Toán</a></li>
+                <li><a href="profile.html">Hồ Sơ</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>💳 Thanh Toán Dự Án</h1>
+
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-top: 2rem;">
+            <div>
+                <div class="card">
+                    <h2>Thông Tin Dự Án</h2>
+                    <div style="padding: 1rem; background: var(--light-brown); border-radius: 5px; margin-top: 1rem;">
+                        <h3 id="projectTitle">Thiết Kế Logo Công Ty</h3>
+                        <p><strong>Nhà thiết kế:</strong> <span id="designerName">Nguyễn Văn A</span></p>
+                        <p><strong>Trạng thái:</strong> <span class="badge badge-success">Hoàn thành</span></p>
+                        <p><strong>Ngày hoàn thành:</strong> <span id="completedDate">15/11/2025</span></p>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 2rem;">
+                    <h2>Chọn Phương Thức Thanh Toán</h2>
+                    <form id="paymentForm">
+                        <div class="form-group">
+                            <label>Phương thức thanh toán *</label>
+                            <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                                <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer;">
+                                    <input type="radio" name="paymentMethod" value="bank_transfer" checked style="margin-right: 1rem;">
+                                    <div>
+                                        <strong>🏦 Chuyển khoản ngân hàng</strong>
+                                        <p style="margin: 0; color: var(--text-gray); font-size: 0.9rem;">Chuyển khoản trực tiếp qua ngân hàng</p>
+                                    </div>
+                                </label>
+
+                                <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer;">
+                                    <input type="radio" name="paymentMethod" value="momo" style="margin-right: 1rem;">
+                                    <div>
+                                        <strong>📱 Ví MoMo</strong>
+                                        <p style="margin: 0; color: var(--text-gray); font-size: 0.9rem;">Thanh toán qua ví điện tử MoMo</p>
+                                    </div>
+                                </label>
+
+                                <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer;">
+                                    <input type="radio" name="paymentMethod" value="zalopay" style="margin-right: 1rem;">
+                                    <div>
+                                        <strong>💰 ZaloPay</strong>
+                                        <p style="margin: 0; color: var(--text-gray); font-size: 0.9rem;">Thanh toán qua ví ZaloPay</p>
+                                    </div>
+                                </label>
+
+                                <label style="display: flex; align-items: center; padding: 1rem; border: 2px solid var(--border-color); border-radius: 10px; cursor: pointer;">
+                                    <input type="radio" name="paymentMethod" value="credit_card" style="margin-right: 1rem;">
+                                    <div>
+                                        <strong>💳 Thẻ tín dụng/ghi nợ</strong>
+                                        <p style="margin: 0; color: var(--text-gray); font-size: 0.9rem;">Visa, Mastercard, JCB</p>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 2rem;">
+                            <label for="note">Ghi chú (tùy chọn)</label>
+                            <textarea id="note" rows="3" placeholder="Nhập ghi chú cho giao dịch..."></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                            💳 Thanh Toán Ngay
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+            <div>
+                <div class="card">
+                    <h3>Chi Tiết Thanh Toán</h3>
+                    <div style="margin-top: 1rem;">
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                            <span>Giá dự án:</span>
+                            <strong id="projectPrice">5.000.000 VNĐ</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 0.5rem 0; border-bottom: 1px solid var(--border-color);">
+                            <span>Phí dịch vụ (5%):</span>
+                            <strong id="serviceFee">250.000 VNĐ</strong>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; padding: 1rem 0; font-size: 1.2rem;">
+                            <strong>Tổng cộng:</strong>
+                            <strong style="color: var(--dark-brown);" id="totalAmount">5.250.000 VNĐ</strong>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card" style="margin-top: 1rem;">
+                    <h3>🔒 Bảo Mật</h3>
+                    <ul style="margin-left: 1.5rem; color: var(--text-gray); font-size: 0.9rem;">
+                        <li>Thanh toán được mã hóa SSL</li>
+                        <li>Tiền được giữ an toàn</li>
+                        <li>Chỉ chuyển khi hoàn thành</li>
+                        <li>Hỗ trợ hoàn tiền 100%</li>
+                    </ul>
+                </div>
+
+                <div class="card" style="margin-top: 1rem;">
+                    <h3>📞 Hỗ Trợ</h3>
+                    <p style="color: var(--text-gray); font-size: 0.9rem;">
+                        Cần hỗ trợ thanh toán?<br>
+                        Liên hệ: NguyenVoMinhThu_110122174
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+        <p>Liên hệ: NguyenVoMinhThu_110122174</p>
+    </footer>
+
+    <script src="js/payment.js"></script>
+</body>
+</html>

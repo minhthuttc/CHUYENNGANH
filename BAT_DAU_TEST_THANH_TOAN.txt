@@ -1,0 +1,161 @@
+╔══════════════════════════════════════════════════════════════╗
+║          🚀 HƯỚNG DẪN NHANH - TEST THANH TOÁN               ║
+╚══════════════════════════════════════════════════════════════╝
+
+📌 BƯỚC 1: KHỞI ĐỘNG SERVER
+---------------------------
+Mở terminal và chạy:
+    node server.js
+
+Đợi thông báo: "🚀 Server đang chạy tại http://localhost:3000"
+
+
+📌 BƯỚC 2: MỞ TRANG DEMO
+---------------------------
+Mở trình duyệt và truy cập:
+    http://localhost:3000/demo-payment.html
+
+Hoặc xem danh sách dự án:
+    http://localhost:3000/my-projects.html
+
+Trang này có tất cả các link và hướng dẫn cần thiết!
+
+
+📌 BƯỚC 3: ĐĂNG NHẬP
+---------------------------
+Nếu chưa đăng nhập, hệ thống sẽ yêu cầu đăng nhập.
+
+Tài khoản test (nếu đã chạy seed-data.js):
+    Email: client@test.com
+    Password: 123456
+
+Hoặc đăng ký tài khoản mới tại:
+    http://localhost:3000/register.html
+
+
+📌 BƯỚC 4: TẠO DỰ ÁN DEMO
+---------------------------
+Từ trang demo-payment.html:
+1. Nhấn nút "Tạo Dự Án Demo"
+2. Đợi hệ thống tạo dự án
+3. Nhấn "Thanh Toán Ngay"
+
+
+📌 BƯỚC 5: THỰC HIỆN THANH TOÁN
+---------------------------
+1. Chọn phương thức thanh toán (Bank/MoMo/ZaloPay/Card)
+2. Thêm ghi chú (tùy chọn)
+3. Nhấn "Thanh Toán Ngay"
+4. Xác nhận trong popup
+5. Xem kết quả thành công!
+
+
+📌 BƯỚC 6: XEM LỊCH SỬ
+---------------------------
+Truy cập:
+    http://localhost:3000/payment-history.html
+
+Hoặc nhấn "Thanh Toán" trong menu điều hướng
+
+
+╔══════════════════════════════════════════════════════════════╗
+║                    CÁC TRANG QUAN TRỌNG                      ║
+╚══════════════════════════════════════════════════════════════╝
+
+🎯 Demo & Hướng dẫn:
+   http://localhost:3000/demo-payment.html
+
+📁 Dự án của tôi (MỚI - XEM CHI TIẾT TẠI ĐÂY):
+   http://localhost:3000/my-projects.html
+
+💳 Trang thanh toán:
+   http://localhost:3000/payment.html?projectId=<ID>
+
+📜 Lịch sử giao dịch:
+   http://localhost:3000/payment-history.html
+
+🧪 Test API:
+   http://localhost:3000/test-payment.html
+
+📄 Chi tiết dự án:
+   http://localhost:3000/project-detail.html?id=<ID>
+
+
+╔══════════════════════════════════════════════════════════════╗
+║                    TÍNH NĂNG ĐÃ HOÀN THÀNH                   ║
+╚══════════════════════════════════════════════════════════════╝
+
+✅ Thanh toán với 4 phương thức
+✅ Tính phí dịch vụ tự động (5%)
+✅ Lịch sử giao dịch chi tiết
+✅ Thống kê thu/chi
+✅ Bộ lọc giao dịch
+✅ Validation đầy đủ
+✅ Xử lý lỗi và thông báo
+✅ Cập nhật trạng thái dự án
+✅ Responsive design
+✅ Loading states
+✅ Confirmation dialogs
+
+
+╔══════════════════════════════════════════════════════════════╗
+║                    NAVIGATION MENU                           ║
+╚══════════════════════════════════════════════════════════════╝
+
+Tất cả các trang đã được cập nhật với menu mới:
+    Dashboard | Dự Án | Thanh Toán | Hồ Sơ
+
+Link "Thanh Toán" sẽ dẫn đến trang lịch sử thanh toán.
+
+
+╔══════════════════════════════════════════════════════════════╗
+║                    NÚT THANH TOÁN                            ║
+╚══════════════════════════════════════════════════════════════╝
+
+Nút "💳 Thanh Toán Dự Án" sẽ xuất hiện trong:
+- Trang chi tiết dự án (project-detail.html)
+- Khi bạn là khách hàng của dự án
+- Khi dự án ở trạng thái "review" hoặc "completed"
+
+
+╔══════════════════════════════════════════════════════════════╗
+║                    TROUBLESHOOTING                           ║
+╚══════════════════════════════════════════════════════════════╝
+
+❌ Không thấy nút thanh toán?
+   → Đảm bảo bạn là khách hàng của dự án
+   → Dự án phải ở trạng thái "review" hoặc "completed"
+
+❌ Lỗi "Không tìm thấy dự án"?
+   → Tạo dự án demo từ demo-payment.html
+
+❌ Lỗi đăng nhập?
+   → Xóa localStorage và đăng nhập lại
+   → Hoặc đăng ký tài khoản mới
+
+❌ Server không chạy?
+   → Kiểm tra MongoDB đã kết nối chưa
+   → Kiểm tra port 3000 có bị chiếm không
+
+
+╔══════════════════════════════════════════════════════════════╗
+║                    TÀI LIỆU THAM KHẢO                        ║
+╚══════════════════════════════════════════════════════════════╝
+
+📖 HUONG_DAN_THANH_TOAN.md
+   → Hướng dẫn chi tiết về hệ thống thanh toán
+
+📖 HUONG_DAN_TEST_THANH_TOAN.md
+   → Hướng dẫn test từng bước
+
+📖 README.md
+   → Thông tin tổng quan về dự án
+
+
+╔══════════════════════════════════════════════════════════════╗
+║                    LIÊN HỆ HỖ TRỢ                            ║
+╚══════════════════════════════════════════════════════════════╝
+
+Email: NguyenVoMinhThu_110122174
+
+Chúc bạn test thành công! 🎉

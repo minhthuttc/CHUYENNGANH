@@ -16,12 +16,18 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    required: true
+    required: false,
+    default: ''
   },
   userType: {
     type: String,
     enum: ['designer', 'client', 'admin'],
     required: true
+  },
+  adminRole: {
+    type: String,
+    enum: ['super_admin', 'admin', 'moderator'],
+    default: 'admin'
   },
   avatar: {
     type: String,

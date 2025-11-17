@@ -10,11 +10,17 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static('.'));
 
+// Import init admin
+const initDefaultAdmin = require('./init-admin');
+
 // MongoDB Connection
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
+  .then(async () => {
     console.log('✅ Kết nối MongoDB thành công!');
     console.log('📊 Database: designhub');
+    
+    // Tạo admin mặc định
+    await initDefaultAdmin();
   })
   .catch((err) => {
     console.error('❌ Lỗi kết nối MongoDB:', err.message);
@@ -24,11 +30,17 @@ mongoose.connect(process.env.MONGODB_URI)
 const userRoutes = require('./routes/users');
 const projectRoutes = require('./routes/projects');
 const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/admin');
+const paymentRoutes = require('./routes/payments');
+const reviewRoutes = require('./routes/reviews');
 
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/projects', projectRoutes);
+app.use('/api/admin', adminRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 // Test route
 app.get('/api/test', (req, res) => {

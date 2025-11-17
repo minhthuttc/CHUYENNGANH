@@ -13,7 +13,7 @@
             <ul class="nav-links">
                 <li><a href="dashboard.html">Bảng Điều Khiển</a></li>
                 <li><a href="projects.html">Dự Án</a></li>
-                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="payment-history.html">Thanh Toán</a></li>
                 <li><a href="profile.html">Hồ Sơ</a></li>
             </ul>
         </nav>
@@ -22,16 +22,24 @@
     <main class="container">
         <a href="projects.html" style="color: var(--dark-brown); text-decoration: none;">← Quay lại danh sách</a>
         
-        <div style="margin-top: 2rem;">
-            <span class="badge badge-success">Đang tuyển</span>
-            <h1>Thiết Kế Logo Công Ty</h1>
+        <!-- Loading State -->
+        <div id="loadingState" style="text-align: center; padding: 3rem;">
+            <div class="spinner"></div>
+            <p style="margin-top: 1rem; color: var(--text-gray);">Đang tải thông tin dự án...</p>
         </div>
 
-        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-top: 2rem;">
-            <div>
-                <div class="card">
-                    <h2>Mô Tả Dự Án</h2>
-                    <p>Chúng tôi đang tìm kiếm một nhà thiết kế tài năng để tạo ra logo chuyên nghiệp cho công ty công nghệ của chúng tôi. Logo cần thể hiện sự hiện đại, đổi mới và tin cậy.</p>
+        <!-- Project Content -->
+        <div id="projectContent" style="display: none;">
+            <div style="margin-top: 2rem;">
+                <span class="badge badge-success">Đang tuyển</span>
+                <h1>Thiết Kế Logo Công Ty</h1>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; margin-top: 2rem;">
+                <div>
+                    <div class="card">
+                        <h2>Mô Tả Dự Án</h2>
+                        <p>Đang tải...</p>
                     
                     <h3 style="margin-top: 2rem;">Yêu Cầu</h3>
                     <ul style="margin-left: 1.5rem; color: var(--text-gray);">
@@ -120,12 +128,13 @@
                 </div>
             </div>
         </div>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
     </footer>
 
-    <script src="js/main.js"></script>
+    <script src="js/project-detail.js"></script>
 </body>
 </html>

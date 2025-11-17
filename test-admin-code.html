@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Mã Admin - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">🔍 Kiểm Tra Mã Bảo Mật Admin</h2>
+            
+            <div style="background: var(--light-brown); padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem;">
+                <h3>📋 Mã bảo mật chính xác:</h3>
+                <div style="background: white; padding: 1rem; border-radius: 5px; margin-top: 1rem; font-family: monospace; font-size: 1.2rem; text-align: center; border: 2px solid var(--dark-brown);">
+                    DESIGNHUB_ADMIN_110122174
+                </div>
+                <button onclick="copyCode()" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+                    📋 Copy Mã
+                </button>
+            </div>
+
+            <form id="testForm">
+                <div class="form-group">
+                    <label for="testCode">Nhập mã để kiểm tra:</label>
+                    <input type="text" id="testCode" name="testCode" placeholder="Dán mã vào đây">
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    ✅ Kiểm Tra
+                </button>
+            </form>
+
+            <div id="result" style="margin-top: 2rem; display: none;"></div>
+
+            <div style="margin-top: 2rem; padding: 1rem; background: var(--light-brown); border-radius: 5px;">
+                <h4>💡 Lưu ý khi nhập mã:</h4>
+                <ul style="margin-left: 1.5rem; color: var(--text-gray);">
+                    <li>Không có khoảng trắng đầu/cuối</li>
+                    <li>Phân biệt chữ HOA/thường</li>
+                    <li>Không có ký tự đặc biệt thừa</li>
+                    <li>Độ dài: 29 ký tự</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="admin-register.html" class="btn btn-secondary">
+                    ➡️ Đi đến trang đăng ký Admin
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+    </footer>
+
+    <script>
+        const CORRECT_CODE = 'DESIGNHUB_ADMIN_110122174';
+
+        function copyCode() {
+            navigator.clipboard.writeText(CORRECT_CODE).then(() => {
+                alert('✅ Đã copy mã bảo mật!\n\nBạn có thể dán (Ctrl+V) vào form đăng ký admin.');
+            });
+        }
+
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const inputCode = document.getElementById('testCode').value;
+            const resultDiv = document.getElementById('result');
+            
+            // Hiển thị thông tin chi tiết
+            let html = '<div style="padding: 1.5rem; border-radius: 10px;">';
+            
+            if (inputCode === CORRECT_CODE) {
+                html += '<div style="background: #d4edda; color: #155724; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">';
+                html += '<h3>✅ MÃ CHÍNH XÁC!</h3>';
+                html += '<p>Mã bảo mật của bạn hoàn toàn đúng.</p>';
+                html += '</div>';
+            } else {
+                html += '<div style="background: #f8d7da; color: #721c24; padding: 1rem; border-radius: 5px; margin-bottom: 1rem;">';
+                html += '<h3>❌ MÃ KHÔNG CHÍNH XÁC!</h3>';
+                html += '</div>';
+            }
+            
+            // So sánh chi tiết
+            html += '<div style="background: white; padding: 1rem; border-radius: 5px; border: 1px solid var(--border-color);">';
+            html += '<h4>📊 Phân tích:</h4>';
+            html += '<table style="width: 100%; margin-top: 1rem;">';
+            html += '<tr><td><strong>Mã đúng:</strong></td><td style="font-family: monospace;">' + CORRECT_CODE + '</td></tr>';
+            html += '<tr><td><strong>Mã bạn nhập:</strong></td><td style="font-family: monospace;">' + inputCode + '</td></tr>';
+            html += '<tr><td><strong>Độ dài đúng:</strong></td><td>' + CORRECT_CODE.length + ' ký tự</td></tr>';
+            html += '<tr><td><strong>Độ dài của bạn:</strong></td><td>' + inputCode.length + ' ký tự</td></tr>';
+            html += '<tr><td><strong>Khớp:</strong></td><td>' + (inputCode === CORRECT_CODE ? '✅ Có' : '❌ Không') + '</td></tr>';
+            html += '</table>';
+            
+            // Tìm vị trí khác biệt
+            if (inputCode !== CORRECT_CODE) {
+                html += '<div style="margin-top: 1rem; padding: 1rem; background: #fff3cd; border-radius: 5px;">';
+                html += '<strong>🔍 Phát hiện sự khác biệt:</strong><br>';
+                
+                if (inputCode.length !== CORRECT_CODE.length) {
+                    html += '• Độ dài không khớp (thiếu hoặc thừa ' + Math.abs(inputCode.length - CORRECT_CODE.length) + ' ký tự)<br>';
+                }
+                
+                if (inputCode.trim() !== inputCode) {
+                    html += '• Có khoảng trắng đầu hoặc cuối<br>';
+                }
+                
+                // Tìm ký tự khác biệt
+                for (let i = 0; i < Math.max(inputCode.length, CORRECT_CODE.length); i++) {
+                    if (inputCode[i] !== CORRECT_CODE[i]) {
+                        html += '• Vị trí ' + (i+1) + ': Bạn nhập "' + (inputCode[i] || '(thiếu)') + '" thay vì "' + (CORRECT_CODE[i] || '(thừa)') + '"<br>';
+                        break;
+                    }
+                }
+                
+                html += '</div>';
+                
+                html += '<div style="margin-top: 1rem;">';
+                html += '<button onclick="copyCode()" class="btn btn-primary" style="width: 100%;">📋 Copy mã đúng</button>';
+                html += '</div>';
+            } else {
+                html += '<div style="margin-top: 1rem;">';
+                html += '<a href="admin-register.html" class="btn btn-primary" style="width: 100%; display: block; text-align: center; text-decoration: none;">➡️ Đăng ký Admin ngay</a>';
+                html += '</div>';
+            }
+            
+            html += '</div>';
+            html += '</div>';
+            
+            resultDiv.innerHTML = html;
+            resultDiv.style.display = 'block';
+        });
+    </script>
+</body>
+</html>

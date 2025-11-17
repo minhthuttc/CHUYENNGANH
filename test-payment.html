@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Payment System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .test-section {
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: var(--light-brown);
+            border-radius: 10px;
+        }
+        .test-button {
+            margin: 0.5rem;
+        }
+        .result {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 5px;
+            font-family: monospace;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub - Test Payment</a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="payment-history.html">Lịch Sử</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>🧪 Test Hệ Thống Thanh Toán</h1>
+
+        <div class="test-section">
+            <h2>1. Test Tạo Thanh Toán</h2>
+            <p>Tạo một giao dịch thanh toán mẫu</p>
+            <button onclick="testCreatePayment()" class="btn btn-primary test-button">
+                💳 Test Tạo Thanh Toán
+            </button>
+            <div id="result1" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>2. Test Lấy Lịch Sử</h2>
+            <p>Lấy danh sách giao dịch của user hiện tại</p>
+            <button onclick="testGetHistory()" class="btn btn-primary test-button">
+                📜 Test Lịch Sử
+            </button>
+            <div id="result2" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>3. Test Thống Kê</h2>
+            <p>Lấy thống kê thanh toán của user</p>
+            <button onclick="testGetStats()" class="btn btn-primary test-button">
+                📊 Test Thống Kê
+            </button>
+            <div id="result3" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>4. Test Validation</h2>
+            <p>Kiểm tra các trường hợp lỗi</p>
+            <button onclick="testValidation()" class="btn btn-primary test-button">
+                ⚠️ Test Validation
+            </button>
+            <div id="result4" class="result" style="display: none;"></div>
+        </div>
+
+        <div class="test-section">
+            <h2>5. Test UI Components</h2>
+            <p>Mở các trang thanh toán</p>
+            <button onclick="openPaymentPage()" class="btn btn-secondary test-button">
+                💳 Mở Trang Thanh Toán
+            </button>
+            <button onclick="openHistoryPage()" class="btn btn-secondary test-button">
+                📜 Mở Lịch Sử
+            </button>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        async function testCreatePayment() {
+            const result = document.getElementById('result1');
+            result.style.display = 'block';
+            result.textContent = 'Đang test...';
+
+            try {
+                // Lấy dự án đầu tiên để test
+                const projectsRes = await fetch(`${API_URL}/projects`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                const projects = await projectsRes.json();
+                
+                if (projects.length === 0) {
+                    result.textContent = '❌ Không có dự án nào để test. Vui lòng tạo dự án trước.';
+                    return;
+                }
+
+                const testProject = projects[0];
+                const paymentData = {
+                    projectId: testProject._id,
+                    paymentMethod: 'bank_transfer',
+                    note: 'Test payment from test page',
+                    amount: (testProject.budget || 5000000) * 1.05
+                };
+
+                const response = await fetch(`${API_URL}/payments/create`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    },
+                    body: JSON.stringify(paymentData)
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.textContent = `✅ THÀNH CÔNG!\n\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    result.textContent = `❌ LỖI!\n\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                result.textContent = `❌ EXCEPTION!\n\n${error.message}`;
+            }
+        }
+
+        async function testGetHistory() {
+            const result = document.getElementById('result2');
+            result.style.display = 'block';
+            result.textContent = 'Đang test...';
+
+            try {
+                const user = JSON.parse(localStorage.getItem('user'));
+                const response = await fetch(`${API_URL}/payments/history?userId=${user._id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.textContent = `✅ THÀNH CÔNG! Tìm thấy ${data.length} giao dịch\n\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    result.textContent = `❌ LỖI!\n\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                result.textContent = `❌ EXCEPTION!\n\n${error.message}`;
+            }
+        }
+
+        async function testGetStats() {
+            const result = document.getElementById('result3');
+            result.style.display = 'block';
+            result.textContent = 'Đang test...';
+
+            try {
+                const user = JSON.parse(localStorage.getItem('user'));
+                const response = await fetch(`${API_URL}/payments/stats/${user._id}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+
+                const data = await response.json();
+                
+                if (response.ok) {
+                    result.textContent = `✅ THÀNH CÔNG!\n\n${JSON.stringify(data, null, 2)}`;
+                } else {
+                    result.textContent = `❌ LỖI!\n\n${JSON.stringify(data, null, 2)}`;
+                }
+            } catch (error) {
+                result.textContent = `❌ EXCEPTION!\n\n${error.message}`;
+            }
+        }
+
+        async function testValidation() {
+            const result = document.getElementById('result4');
+            result.style.display = 'block';
+            result.textContent = 'Đang test validation...\n\n';
+
+            const tests = [
+                {
+                    name: 'Test thiếu projectId',
+                    data: { paymentMethod: 'bank_transfer', amount: 5000000 }
+                },
+                {
+                    name: 'Test phương thức không hợp lệ',
+                    data: { projectId: '123', paymentMethod: 'invalid', amount: 5000000 }
+                },
+                {
+                    name: 'Test thiếu amount',
+                    data: { projectId: '123', paymentMethod: 'bank_transfer' }
+                }
+            ];
+
+            for (const test of tests) {
+                try {
+                    const response = await fetch(`${API_URL}/payments/create`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        },
+                        body: JSON.stringify(test.data)
+                    });
+
+                    const data = await response.json();
+                    result.textContent += `${test.name}:\n`;
+                    result.textContent += `Status: ${response.status}\n`;
+                    result.textContent += `Message: ${data.message}\n\n`;
+                } catch (error) {
+                    result.textContent += `${test.name}: ERROR - ${error.message}\n\n`;
+                }
+            }
+        }
+
+        function openPaymentPage() {
+            // Lấy projectId đầu tiên
+            fetch(`${API_URL}/projects`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            })
+            .then(res => res.json())
+            .then(projects => {
+                if (projects.length > 0) {
+                    window.open(`payment.html?projectId=${projects[0]._id}`, '_blank');
+                } else {
+                    alert('Không có dự án nào. Vui lòng tạo dự án trước.');
+                }
+            });
+        }
+
+        function openHistoryPage() {
+            window.open('payment-history.html', '_blank');
+        }
+
+        // Check auth
+        if (!localStorage.getItem('token')) {
+            alert('Vui lòng đăng nhập trước!');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>

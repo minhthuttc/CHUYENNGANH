@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Đăng Ký - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub - Test</a>
+            <ul class="nav-links">
+                <li><a href="register.html">Đăng Ký</a></li>
+                <li><a href="login.html">Đăng Nhập</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>🧪 Test Đăng Ký Tài Khoản</h1>
+
+        <div class="card" style="margin: 2rem 0;">
+            <h2>Kiểm Tra API</h2>
+            <button onclick="testAPI()" class="btn btn-primary">
+                🔍 Test Kết Nối API
+            </button>
+            <div id="apiResult" style="margin-top: 1rem; display: none;"></div>
+        </div>
+
+        <div class="card" style="margin: 2rem 0;">
+            <h2>Đăng Ký Nhanh</h2>
+            <p>Tạo tài khoản test với thông tin mẫu</p>
+            
+            <div style="display: grid; gap: 1rem; margin-top: 1rem;">
+                <button onclick="quickRegister('designer')" class="btn btn-primary">
+                    🎨 Đăng Ký Nhà Thiết Kế
+                </button>
+                <button onclick="quickRegister('client')" class="btn btn-secondary">
+                    👤 Đăng Ký Khách Hàng
+                </button>
+            </div>
+            
+            <div id="registerResult" style="margin-top: 1rem; display: none;"></div>
+        </div>
+
+        <div class="card" style="margin: 2rem 0;">
+            <h2>Đăng Ký Tùy Chỉnh</h2>
+            <form id="customRegisterForm">
+                <div class="form-group">
+                    <label>Loại tài khoản</label>
+                    <select id="customUserType" required>
+                        <option value="designer">Nhà thiết kế</option>
+                        <option value="client">Khách hàng</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Họ tên</label>
+                    <input type="text" id="customFullName" placeholder="Nguyễn Văn A" required>
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="customEmail" placeholder="test@example.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Mật khẩu</label>
+                    <input type="password" id="customPassword" placeholder="Tối thiểu 6 ký tự" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">
+                    Đăng Ký
+                </button>
+            </form>
+            <div id="customResult" style="margin-top: 1rem; display: none;"></div>
+        </div>
+
+        <div class="card" style="margin: 2rem 0; background: var(--light-brown);">
+            <h3>📋 Hướng Dẫn</h3>
+            <ol style="margin-left: 1.5rem; line-height: 2;">
+                <li>Nhấn "Test Kết Nối API" để kiểm tra server</li>
+                <li>Nhấn "Đăng Ký Nhanh" để tạo tài khoản test</li>
+                <li>Hoặc điền form tùy chỉnh và đăng ký</li>
+                <li>Sau khi đăng ký thành công, đăng nhập tại <a href="login.html">login.html</a></li>
+            </ol>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        async function testAPI() {
+            const resultDiv = document.getElementById('apiResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ Đang kiểm tra...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}/test`);
+                const data = await response.json();
+                
+                resultDiv.innerHTML = `
+                    <div style="padding: 1rem; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724;">
+                        <strong>✅ Kết nối thành công!</strong><br>
+                        Message: ${data.message}<br>
+                        Status: ${data.status}
+                    </div>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div style="padding: 1rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+                        <strong>❌ Lỗi kết nối!</strong><br>
+                        ${error.message}<br><br>
+                        <strong>Giải pháp:</strong><br>
+                        1. Kiểm tra server đang chạy: <code>node server.js</code><br>
+                        2. Kiểm tra MongoDB đã kết nối<br>
+                        3. Kiểm tra port 3000 không bị chiếm
+                    </div>
+                `;
+            }
+        }
+
+        async function quickRegister(userType) {
+            const resultDiv = document.getElementById('registerResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ Đang đăng ký...</p>';
+
+            const timestamp = Date.now();
+            const registerData = {
+                fullName: userType === 'designer' ? `Designer Test ${timestamp}` : `Client Test ${timestamp}`,
+                email: `test_${userType}_${timestamp}@example.com`,
+                password: '123456',
+                userType: userType
+            };
+
+            try {
+                console.log('Sending:', registerData);
+
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(registerData)
+                });
+
+                const data = await response.json();
+                console.log('Response:', data);
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div style="padding: 1rem; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724;">
+                            <strong>✅ Đăng ký thành công!</strong><br><br>
+                            <strong>Thông tin tài khoản:</strong><br>
+                            Email: <code>${registerData.email}</code><br>
+                            Mật khẩu: <code>${registerData.password}</code><br>
+                            Loại: ${userType === 'designer' ? 'Nhà thiết kế' : 'Khách hàng'}<br><br>
+                            <button onclick="window.location.href='login.html'" class="btn btn-primary">
+                                Đăng Nhập Ngay
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    resultDiv.innerHTML = `
+                        <div style="padding: 1rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+                            <strong>❌ Đăng ký thất bại!</strong><br>
+                            ${data.message}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div style="padding: 1rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+                        <strong>❌ Lỗi:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        document.getElementById('customRegisterForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const resultDiv = document.getElementById('customResult');
+            resultDiv.style.display = 'block';
+            resultDiv.innerHTML = '<p>⏳ Đang đăng ký...</p>';
+
+            const registerData = {
+                fullName: document.getElementById('customFullName').value,
+                email: document.getElementById('customEmail').value,
+                password: document.getElementById('customPassword').value,
+                userType: document.getElementById('customUserType').value
+            };
+
+            try {
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(registerData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `
+                        <div style="padding: 1rem; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724;">
+                            <strong>✅ Đăng ký thành công!</strong><br><br>
+                            Email: ${registerData.email}<br>
+                            <button onclick="window.location.href='login.html'" class="btn btn-primary" style="margin-top: 1rem;">
+                                Đăng Nhập Ngay
+                            </button>
+                        </div>
+                    `;
+                    this.reset();
+                } else {
+                    resultDiv.innerHTML = `
+                        <div style="padding: 1rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+                            <strong>❌ Đăng ký thất bại!</strong><br>
+                            ${data.message}
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `
+                    <div style="padding: 1rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+                        <strong>❌ Lỗi:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        });
+
+        // Auto test on load
+        testAPI();
+    </script>
+</body>
+</html>
