@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test My Projects - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>🧪 Test My Projects</h1>
+
+        <div class="card">
+            <h2>Bước 1: Đăng Nhập Nhanh</h2>
+            <button onclick="quickLogin()" class="btn btn-primary">
+                🔑 Đăng Nhập Tự Động
+            </button>
+            <div id="loginStatus" style="margin-top: 1rem;"></div>
+        </div>
+
+        <div class="card">
+            <h2>Bước 2: Kiểm Tra API Projects</h2>
+            <button onclick="checkProjects()" class="btn btn-secondary">
+                📋 Kiểm Tra Projects
+            </button>
+            <div id="projectsStatus" style="margin-top: 1rem;"></div>
+        </div>
+
+        <div class="card">
+            <h2>Bước 3: Mở Trang My Projects</h2>
+            <a href="my-projects.html" class="btn btn-success" target="_blank">
+                📁 Mở My Projects
+            </a>
+            <p style="margin-top: 1rem; color: var(--text-gray);">
+                Sau khi đăng nhập, click vào nút này để xem dự án
+            </p>
+        </div>
+
+        <div class="card" style="background: var(--light-brown);">
+            <h2>💡 Hướng Dẫn</h2>
+            <ol style="line-height: 2;">
+                <li>Nhấn "Đăng Nhập Tự Động" để đăng nhập với tài khoản mẫu</li>
+                <li>Nhấn "Kiểm Tra Projects" để xem có dự án nào không</li>
+                <li>Nếu chưa có dự án, chạy: <code>node seed-mock-data.js</code></li>
+                <li>Nhấn "Mở My Projects" để xem danh sách dự án</li>
+            </ol>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        async function quickLogin() {
+            const statusDiv = document.getElementById('loginStatus');
+            statusDiv.innerHTML = '<p>⏳ Đang đăng nhập...</p>';
+
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: 'client1@example.com',
+                        password: '123456'
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    localStorage.setItem('token', data.token);
+                    localStorage.setItem('user', JSON.stringify(data.user));
+
+                    statusDiv.innerHTML = `
+                        <div style="padding: 1rem; background: #d4edda; border-radius: 5px; color: #155724;">
+                            <strong>✅ Đăng nhập thành công!</strong><br>
+                            Email: ${data.user.email}<br>
+                            User Type: ${data.user.userType}<br>
+                            Token: ${data.token.substring(0, 20)}...
+                        </div>
+                    `;
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div style="padding: 1rem; background: #f8d7da; border-radius: 5px; color: #721c24;">
+                        <strong>❌ Lỗi đăng nhập!</strong><br>
+                        ${error.message}<br><br>
+                        <strong>Giải pháp:</strong><br>
+                        Chạy: <code>node seed-mock-data.js</code>
+                    </div>
+                `;
+            }
+        }
+
+        async function checkProjects() {
+            const statusDiv = document.getElementById('projectsStatus');
+            statusDiv.innerHTML = '<p>⏳ Đang kiểm tra...</p>';
+
+            try {
+                const token = localStorage.getItem('token');
+                
+                if (!token) {
+                    throw new Error('Chưa đăng nhập! Nhấn "Đăng Nhập Tự Động" trước.');
+                }
+
+                const response = await fetch(`${API_URL}/projects`, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                const projects = await response.json();
+
+                if (response.ok) {
+                    if (projects.length === 0) {
+                        statusDiv.innerHTML = `
+                            <div style="padding: 1rem; background: #fff3cd; border-radius: 5px; color: #856404;">
+                                <strong>⚠️ Chưa có dự án nào!</strong><br><br>
+                                <strong>Giải pháp:</strong><br>
+                                1. Mở terminal<br>
+                                2. Chạy: <code>node seed-mock-data.js</code><br>
+                                3. Nhấn "Kiểm Tra Projects" lại
+                            </div>
+                        `;
+                    } else {
+                        const projectsList = projects.map(p => `
+                            <li>
+                                <strong>${p.title}</strong><br>
+                                Status: ${p.status} | Budget: ${formatCurrency(p.budget)}
+                            </li>
+                        `).join('');
+
+                        statusDiv.innerHTML = `
+                            <div style="padding: 1rem; background: #d4edda; border-radius: 5px; color: #155724;">
+                                <strong>✅ Tìm thấy ${projects.length} dự án!</strong><br><br>
+                                <ul style="margin-left: 1.5rem; line-height: 1.8;">
+                                    ${projectsList}
+                                </ul>
+                                <br>
+                                <a href="my-projects.html" class="btn btn-success" target="_blank">
+                                    📁 Xem Tất Cả Dự Án
+                                </a>
+                            </div>
+                        `;
+                    }
+                } else {
+                    throw new Error('Không thể tải dự án');
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div style="padding: 1rem; background: #f8d7da; border-radius: 5px; color: #721c24;">
+                        <strong>❌ Lỗi!</strong><br>
+                        ${error.message}
+                    </div>
+                `;
+            }
+        }
+
+        function formatCurrency(amount) {
+            return new Intl.NumberFormat('vi-VN', {
+                style: 'currency',
+                currency: 'VND'
+            }).format(amount);
+        }
+
+        // Auto check login status
+        window.addEventListener('load', () => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                document.getElementById('loginStatus').innerHTML = `
+                    <div style="padding: 1rem; background: #d1ecf1; border-radius: 5px; color: #0c5460;">
+                        ℹ️ Đã đăng nhập trước đó. Token còn hiệu lực.
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>

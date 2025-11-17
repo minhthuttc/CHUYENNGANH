@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trạng Thái Hệ Thống - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .status-card {
+            margin: 1rem 0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+        .status-ok {
+            background: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+        .status-error {
+            background: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+        .status-warning {
+            background: #fff3cd;
+            border-color: #ffeaa7;
+            color: #856404;
+        }
+        .link-box {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin: 0.5rem 0;
+        }
+        .link-box a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .link-box a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <div class="nav-links">
+                <a href="check-server.html">Kiểm Tra Server</a>
+                <a href="status.html" class="active">Trạng Thái</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>📊 Trạng Thái Hệ Thống</h1>
+
+        <div id="serverStatus" class="status-card">
+            <h2>⏳ Đang kiểm tra...</h2>
+        </div>
+
+        <div class="card">
+            <h2>🌐 Các Trang Có Thể Sử Dụng</h2>
+            
+            <h3>🔍 Kiểm Tra & Test</h3>
+            <div class="link-box">
+                <a href="check-server.html" target="_blank">
+                    🔄 Kiểm Tra Server
+                </a>
+                <p>Kiểm tra server có đang chạy không</p>
+            </div>
+            <div class="link-box">
+                <a href="test-register.html" target="_blank">
+                    🧪 Test Đăng Ký
+                </a>
+                <p>Test API đăng ký với dữ liệu mẫu</p>
+            </div>
+
+            <h3>👤 Người Dùng</h3>
+            <div class="link-box">
+                <a href="register.html" target="_blank">
+                    📝 Đăng Ký
+                </a>
+                <p>Đăng ký tài khoản mới (Client/Designer)</p>
+            </div>
+            <div class="link-box">
+                <a href="login.html" target="_blank">
+                    🔑 Đăng Nhập
+                </a>
+                <p>Đăng nhập vào hệ thống</p>
+            </div>
+
+            <h3>👨‍💼 Admin</h3>
+            <div class="link-box">
+                <a href="admin-register.html" target="_blank">
+                    🔐 Đăng Ký Admin
+                </a>
+                <p>Đăng ký tài khoản admin (cần mã bảo mật)</p>
+            </div>
+            <div class="link-box">
+                <a href="admin.html" target="_blank">
+                    ⚙️ Quản Trị
+                </a>
+                <p>Trang quản trị hệ thống</p>
+            </div>
+
+            <h3>📚 Hướng Dẫn</h3>
+            <div class="link-box">
+                <a href="START_HERE.md" target="_blank">
+                    🚀 Bắt Đầu Sử Dụng
+                </a>
+                <p>Hướng dẫn tổng quan</p>
+            </div>
+            <div class="link-box">
+                <a href="HUONG_DAN_SU_DUNG_SERVER.md" target="_blank">
+                    📖 Hướng Dẫn Server
+                </a>
+                <p>Chi tiết về 2 loại server</p>
+            </div>
+            <div class="link-box">
+                <a href="SUA_LOI_MONGODB.md" target="_blank">
+                    🔧 Sửa Lỗi MongoDB
+                </a>
+                <p>Hướng dẫn sửa lỗi kết nối MongoDB</p>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>🛠️ Thông Tin Kỹ Thuật</h2>
+            <div style="background: #f5f5f5; padding: 1rem; border-radius: 5px; font-family: monospace;">
+                <p><strong>API URL:</strong> http://localhost:3000/api</p>
+                <p><strong>Server Type:</strong> <span id="serverType">Đang kiểm tra...</span></p>
+                <p><strong>Database:</strong> <span id="dbStatus">Đang kiểm tra...</span></p>
+            </div>
+        </div>
+
+        <div class="card" style="background: var(--light-brown);">
+            <h2>💡 Lưu Ý</h2>
+            <ul style="line-height: 2;">
+                <li><strong>Mock Server:</strong> Dữ liệu lưu trong RAM, mất khi restart</li>
+                <li><strong>Server Chính:</strong> Cần MongoDB Atlas, lưu dữ liệu vĩnh viễn</li>
+                <li><strong>Mã Admin:</strong> DESIGNHUB_ADMIN_110122174</li>
+                <li><strong>Test API:</strong> Chạy <code>node test-api-full.js</code> trong terminal</li>
+            </ul>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        async function checkStatus() {
+            const statusDiv = document.getElementById('serverStatus');
+            const serverTypeSpan = document.getElementById('serverType');
+            const dbStatusSpan = document.getElementById('dbStatus');
+
+            try {
+                const response = await fetch(`${API_URL}/test`);
+                const data = await response.json();
+
+                if (response.ok) {
+                    statusDiv.className = 'status-card status-ok';
+                    statusDiv.innerHTML = `
+                        <h2>✅ Server Đang Hoạt Động</h2>
+                        <p><strong>Status:</strong> ${data.status}</p>
+                        <p><strong>Message:</strong> ${data.message}</p>
+                        <p><strong>URL:</strong> ${API_URL}</p>
+                    `;
+
+                    // Detect server type
+                    const testRegister = await fetch(`${API_URL}/auth/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            fullName: 'Test',
+                            email: 'test_probe_' + Date.now() + '@test.com',
+                            password: '123456',
+                            userType: 'client'
+                        })
+                    });
+
+                    if (testRegister.ok) {
+                        serverTypeSpan.textContent = 'Mock Server (Không cần MongoDB)';
+                        serverTypeSpan.style.color = '#28a745';
+                        dbStatusSpan.textContent = 'RAM (Dữ liệu tạm thời)';
+                        dbStatusSpan.style.color = '#ffc107';
+                    } else {
+                        const errorData = await testRegister.json();
+                        if (errorData.message && errorData.message.includes('MongoDB')) {
+                            serverTypeSpan.textContent = 'Server Chính (Lỗi MongoDB)';
+                            serverTypeSpan.style.color = '#dc3545';
+                            dbStatusSpan.textContent = 'MongoDB Atlas (Chưa kết nối)';
+                            dbStatusSpan.style.color = '#dc3545';
+                        }
+                    }
+                } else {
+                    throw new Error('Server không phản hồi');
+                }
+            } catch (error) {
+                statusDiv.className = 'status-card status-error';
+                statusDiv.innerHTML = `
+                    <h2>❌ Server Không Hoạt Động</h2>
+                    <p><strong>Lỗi:</strong> ${error.message}</p>
+                    <p><strong>Giải pháp:</strong></p>
+                    <ol>
+                        <li>Mở terminal</li>
+                        <li>Chạy: <code>node server-mock.js</code></li>
+                        <li>Hoặc: Double click <code>start-mock-server.bat</code></li>
+                        <li>Refresh trang này</li>
+                    </ol>
+                `;
+                serverTypeSpan.textContent = 'Không hoạt động';
+                serverTypeSpan.style.color = '#dc3545';
+                dbStatusSpan.textContent = 'Không hoạt động';
+                dbStatusSpan.style.color = '#dc3545';
+            }
+        }
+
+        // Auto check on load
+        window.addEventListener('load', checkStatus);
+
+        // Refresh every 10 seconds
+        setInterval(checkStatus, 10000);
+    </script>
+</body>
+</html>
