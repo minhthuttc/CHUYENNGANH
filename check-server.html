@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kiểm Tra Server</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>🔍 Kiểm Tra Server</h1>
+
+        <div class="card" style="margin: 2rem 0;">
+            <h2>Trạng Thái Server</h2>
+            <button onclick="checkServer()" class="btn btn-primary">
+                🔄 Kiểm Tra Ngay
+            </button>
+            <div id="serverStatus" style="margin-top: 1rem;"></div>
+        </div>
+
+        <div class="card" style="margin: 2rem 0;">
+            <h2>Test API Đăng Ký</h2>
+            <button onclick="testRegisterAPI()" class="btn btn-secondary">
+                🧪 Test API
+            </button>
+            <div id="apiStatus" style="margin-top: 1rem;"></div>
+        </div>
+
+        <div class="card" style="margin: 2rem 0; background: var(--light-brown);">
+            <h3>📋 Hướng Dẫn Sửa Lỗi</h3>
+            <ol style="margin-left: 1.5rem; line-height: 2;">
+                <li><strong>Kiểm tra server đang chạy:</strong>
+                    <br>Mở terminal và chạy: <code>node server.js</code>
+                </li>
+                <li><strong>Kiểm tra MongoDB:</strong>
+                    <br>Đảm bảo MongoDB đã kết nối thành công
+                </li>
+                <li><strong>Kiểm tra file .env:</strong>
+                    <br>Phải có MONGODB_URI và JWT_SECRET
+                </li>
+                <li><strong>Kiểm tra console log:</strong>
+                    <br>Xem terminal có lỗi gì không
+                </li>
+            </ol>
+        </div>
+
+        <div class="card" style="margin: 2rem 0;">
+            <h3>🛠️ Các Lệnh Hữu Ích</h3>
+            <div style="background: #f5f5f5; padding: 1rem; border-radius: 5px; font-family: monospace;">
+                <p># Khởi động server</p>
+                <p style="color: #28a745;">node server.js</p>
+                <br>
+                <p># Kiểm tra port 3000</p>
+                <p style="color: #28a745;">netstat -ano | findstr :3000</p>
+                <br>
+                <p># Kill process trên port 3000 (nếu bị chiếm)</p>
+                <p style="color: #28a745;">npx kill-port 3000</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+
+        async function checkServer() {
+            const statusDiv = document.getElementById('serverStatus');
+            statusDiv.innerHTML = '<p>⏳ Đang kiểm tra...</p>';
+
+            try {
+                // Test basic API
+                const response = await fetch(`${API_URL}/test`, {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    statusDiv.innerHTML = `
+                        <div style="padding: 1rem; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724;">
+                            <strong>✅ Server đang chạy!</strong><br>
+                            Status: ${data.status}<br>
+                            Message: ${data.message}<br>
+                            URL: ${API_URL}
+                        </div>
+                    `;
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div style="padding: 1rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+                        <strong>❌ Server không chạy!</strong><br>
+                        Lỗi: ${error.message}<br><br>
+                        <strong>Giải pháp:</strong><br>
+                        1. Mở terminal<br>
+                        2. Chạy: <code>node server.js</code><br>
+                        3. Đợi thông báo "Server đang chạy"<br>
+                        4. Thử lại
+                    </div>
+                `;
+            }
+        }
+
+        async function testRegisterAPI() {
+            const statusDiv = document.getElementById('apiStatus');
+            statusDiv.innerHTML = '<p>⏳ Đang test API...</p>';
+
+            const testData = {
+                fullName: 'Test User ' + Date.now(),
+                email: 'test_' + Date.now() + '@example.com',
+                password: '123456',
+                userType: 'client'
+            };
+
+            try {
+                console.log('Sending test registration:', testData);
+
+                const response = await fetch(`${API_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testData)
+                });
+
+                const data = await response.json();
+                console.log('Response:', data);
+
+                if (response.ok) {
+                    statusDiv.innerHTML = `
+                        <div style="padding: 1rem; background: #d4edda; border: 1px solid #c3e6cb; border-radius: 5px; color: #155724;">
+                            <strong>✅ API hoạt động tốt!</strong><br>
+                            Status: ${response.status}<br>
+                            Message: ${data.message}<br>
+                            User ID: ${data.userId}<br><br>
+                            <strong>Thông tin test:</strong><br>
+                            Email: ${testData.email}<br>
+                            Password: ${testData.password}
+                        </div>
+                    `;
+                } else {
+                    statusDiv.innerHTML = `
+                        <div style="padding: 1rem; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 5px; color: #856404;">
+                            <strong>⚠️ API trả về lỗi</strong><br>
+                            Status: ${response.status}<br>
+                            Message: ${data.message}<br><br>
+                            <strong>Chi tiết:</strong><br>
+                            <pre>${JSON.stringify(data, null, 2)}</pre>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                statusDiv.innerHTML = `
+                    <div style="padding: 1rem; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 5px; color: #721c24;">
+                        <strong>❌ Lỗi kết nối API!</strong><br>
+                        Lỗi: ${error.message}<br><br>
+                        <strong>Có thể do:</strong><br>
+                        1. Server chưa chạy<br>
+                        2. MongoDB chưa kết nối<br>
+                        3. Route /auth/register chưa được đăng ký<br>
+                        4. Lỗi trong User model<br><br>
+                        <strong>Kiểm tra:</strong><br>
+                        - Xem terminal server có lỗi không<br>
+                        - Xem console log (F12)
+                    </div>
+                `;
+                console.error('Error:', error);
+            }
+        }
+
+        // Auto check on load
+        window.addEventListener('load', () => {
+            checkServer();
+        });
+    </script>
+</body>
+</html>
