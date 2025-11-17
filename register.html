@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="login.html">Đăng Nhập</a></li>
+                <li><a href="register.html">Đăng Ký</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Đăng Ký Tài Khoản</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="userType">Loại tài khoản</label>
+                    <select id="userType" name="userType" required>
+                        <option value="">Chọn loại tài khoản</option>
+                        <option value="designer">Nhà thiết kế</option>
+                        <option value="client">Khách hàng</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fullName">Họ và tên</label>
+                    <input type="text" id="fullName" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Số điện thoại</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Xác nhận mật khẩu</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Đăng Ký</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Đã có tài khoản? <a href="login.html" style="color: var(--dark-brown);">Đăng nhập</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

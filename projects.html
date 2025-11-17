@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dự Án - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="login.html">Đăng Nhập</a></li>
+                <li><a href="register.html">Đăng Ký</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1>Danh Sách Dự Án</h1>
+            <a href="#" class="btn btn-primary">+ Tạo Dự Án Mới</a>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <h3>Tìm Kiếm & Lọc</h3>
+            <form style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <input type="text" placeholder="Tìm kiếm dự án..." style="width: 100%;">
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <select style="width: 100%;">
+                        <option>Tất cả danh mục</option>
+                        <option>Thiết kế Logo</option>
+                        <option>UI/UX</option>
+                        <option>In ấn</option>
+                        <option>Branding</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <select style="width: 100%;">
+                        <option>Tất cả trạng thái</option>
+                        <option>Đang tuyển</option>
+                        <option>Đang thực hiện</option>
+                        <option>Hoàn thành</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Tìm Kiếm</button>
+            </form>
+        </div>
+
+        <div class="card-grid">
+            <div class="card">
+                <span class="badge badge-success">Đang tuyển</span>
+                <h3>Thiết Kế Logo Công Ty</h3>
+                <p><strong>Khách hàng:</strong> ABC Corporation</p>
+                <p><strong>Danh mục:</strong> Logo Design</p>
+                <p><strong>Ngân sách:</strong> 5.000.000 VNĐ</p>
+                <p><strong>Hạn chót:</strong> 30/11/2025</p>
+                <p style="margin-top: 1rem;">Cần thiết kế logo chuyên nghiệp cho công ty công nghệ. Yêu cầu phong cách hiện đại, tối giản...</p>
+                <a href="project-detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+            </div>
+
+            <div class="card">
+                <span class="badge badge-warning">Đang thực hiện</span>
+                <h3>Thiết Kế UI/UX App Mobile</h3>
+                <p><strong>Khách hàng:</strong> Tech Startup</p>
+                <p><strong>Danh mục:</strong> UI/UX Design</p>
+                <p><strong>Ngân sách:</strong> 15.000.000 VNĐ</p>
+                <p><strong>Hạn chót:</strong> 15/12/2025</p>
+                <p style="margin-top: 1rem;">Thiết kế giao diện và trải nghiệm người dùng cho ứng dụng mobile về thương mại điện tử...</p>
+                <a href="project-detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+            </div>
+
+            <div class="card">
+                <span class="badge badge-success">Đang tuyển</span>
+                <h3>Thiết Kế Brochure Sản Phẩm</h3>
+                <p><strong>Khách hàng:</strong> XYZ Company</p>
+                <p><strong>Danh mục:</strong> Print Design</p>
+                <p><strong>Ngân sách:</strong> 3.000.000 VNĐ</p>
+                <p><strong>Hạn chót:</strong> 25/11/2025</p>
+                <p style="margin-top: 1rem;">Thiết kế brochure giới thiệu sản phẩm mới, kích thước A4, 8 trang...</p>
+                <a href="project-detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+            </div>
+
+            <div class="card">
+                <span class="badge badge-success">Đang tuyển</span>
+                <h3>Thiết Kế Banner Quảng Cáo</h3>
+                <p><strong>Khách hàng:</strong> Marketing Agency</p>
+                <p><strong>Danh mục:</strong> Digital Marketing</p>
+                <p><strong>Ngân sách:</strong> 2.000.000 VNĐ</p>
+                <p><strong>Hạn chót:</strong> 20/11/2025</p>
+                <p style="margin-top: 1rem;">Cần thiết kế bộ banner quảng cáo cho chiến dịch marketing online...</p>
+                <a href="project-detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+            </div>
+
+            <div class="card">
+                <span class="badge badge-info">Hoàn thành</span>
+                <h3>Thiết Kế Website Landing Page</h3>
+                <p><strong>Khách hàng:</strong> E-commerce Store</p>
+                <p><strong>Danh mục:</strong> Web Design</p>
+                <p><strong>Ngân sách:</strong> 8.000.000 VNĐ</p>
+                <p><strong>Hạn chót:</strong> 10/11/2025</p>
+                <p style="margin-top: 1rem;">Thiết kế landing page bán hàng với tỷ lệ chuyển đổi cao...</p>
+                <a href="project-detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+            </div>
+
+            <div class="card">
+                <span class="badge badge-success">Đang tuyển</span>
+                <h3>Thiết Kế Bao Bì Sản Phẩm</h3>
+                <p><strong>Khách hàng:</strong> Food Company</p>
+                <p><strong>Danh mục:</strong> Packaging Design</p>
+                <p><strong>Ngân sách:</strong> 6.000.000 VNĐ</p>
+                <p><strong>Hạn chót:</strong> 05/12/2025</p>
+                <p style="margin-top: 1rem;">Thiết kế bao bì cho dòng sản phẩm thực phẩm hữu cơ...</p>
+                <a href="project-detail.html" class="btn btn-primary">Xem Chi Tiết</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

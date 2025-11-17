@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bảng Điều Khiển - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="dashboard.html">Bảng Điều Khiển</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="profile.html">Hồ Sơ</a></li>
+                <li><a href="index.html">Đăng Xuất</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Bảng Điều Khiển</h1>
+        
+        <div class="dashboard-grid">
+            <div class="stat-card">
+                <h2>12</h2>
+                <p>Dự Án Đang Thực Hiện</p>
+            </div>
+            <div class="stat-card">
+                <h2>45</h2>
+                <p>Dự Án Hoàn Thành</p>
+            </div>
+            <div class="stat-card">
+                <h2>8</h2>
+                <p>Tin Nhắn Mới</p>
+            </div>
+            <div class="stat-card">
+                <h2>4.8⭐</h2>
+                <p>Đánh Giá Trung Bình</p>
+            </div>
+        </div>
+
+        <h2 style="margin-top: 3rem;">Dự Án Gần Đây</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tên Dự Án</th>
+                        <th>Khách Hàng</th>
+                        <th>Trạng Thái</th>
+                        <th>Tiến Độ</th>
+                        <th>Hành Động</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Thiết Kế Logo</td>
+                        <td>ABC Corp</td>
+                        <td><span class="badge badge-warning">Đang thực hiện</span></td>
+                        <td>75%</td>
+                        <td><a href="project-detail.html" class="btn btn-primary">Xem</a></td>
+                    </tr>
+                    <tr>
+                        <td>UI/UX App Mobile</td>
+                        <td>Tech Startup</td>
+                        <td><span class="badge badge-warning">Đang thực hiện</span></td>
+                        <td>50%</td>
+                        <td><a href="project-detail.html" class="btn btn-primary">Xem</a></td>
+                    </tr>
+                    <tr>
+                        <td>Thiết Kế Brochure</td>
+                        <td>XYZ Company</td>
+                        <td><span class="badge badge-success">Hoàn thành</span></td>
+                        <td>100%</td>
+                        <td><a href="project-detail.html" class="btn btn-primary">Xem</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 style="margin-top: 3rem;">Hoạt Động Gần Đây</h2>
+        <div class="card-grid">
+            <div class="card">
+                <p><strong>Nguyễn Văn A</strong> đã gửi phản hồi cho dự án "Thiết Kế Logo"</p>
+                <small style="color: var(--text-gray);">2 giờ trước</small>
+            </div>
+            <div class="card">
+                <p><strong>Trần Thị B</strong> đã hoàn thành dự án "UI/UX Website"</p>
+                <small style="color: var(--text-gray);">5 giờ trước</small>
+            </div>
+            <div class="card">
+                <p>Bạn có tin nhắn mới từ <strong>Lê Văn C</strong></p>
+                <small style="color: var(--text-gray);">1 ngày trước</small>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

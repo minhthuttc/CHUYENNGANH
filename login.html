@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Nhập - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="login.html">Đăng Nhập</a></li>
+                <li><a href="register.html">Đăng Ký</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div class="form-container">
+            <h2 style="text-align: center; margin-bottom: 2rem;">Đăng Nhập</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%;">Đăng Nhập</button>
+            </form>
+            <p style="text-align: center; margin-top: 1rem;">
+                Chưa có tài khoản? <a href="register.html" style="color: var(--dark-brown);">Đăng ký ngay</a>
+            </p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
