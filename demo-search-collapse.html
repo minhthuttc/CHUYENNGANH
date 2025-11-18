@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Tìm Kiếm Thu Gọn</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Demo Tìm Kiếm Thu Gọn</h1>
+        
+        <div class="card">
+            <h3>Tính năng mới:</h3>
+            <ul style="line-height: 2;">
+                <li>✅ Nút toggle để mở/đóng bộ lọc</li>
+                <li>✅ Hiển thị số lượng bộ lọc đang active</li>
+                <li>✅ Hiển thị các bộ lọc đang áp dụng</li>
+                <li>✅ Xóa từng bộ lọc riêng lẻ</li>
+                <li>✅ Tự động đóng sau khi áp dụng</li>
+                <li>✅ Animation mượt mà</li>
+                <li>✅ Responsive design</li>
+            </ul>
+        </div>
+
+        <!-- Demo Toggle Button -->
+        <div style="margin: 2rem 0;">
+            <button id="demoToggle" class="btn btn-outline-primary" style="width: 100%;">
+                <span id="demoIcon">🔽</span> Tìm Kiếm & Lọc Dự Án
+                <span id="demoCount" style="display: none; margin-left: 0.5rem; background: var(--primary-brown); color: white; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.85rem;">3</span>
+            </button>
+        </div>
+
+        <!-- Demo Active Filters -->
+        <div id="demoActiveFilters" style="display: block; margin-bottom: 1rem;">
+            <div class="active-filters">
+                <span class="active-filters-title">🔍 Đang lọc:</span>
+                <span class="filter-badge">
+                    Tìm: "Logo"
+                    <span class="remove">✕</span>
+                </span>
+                <span class="filter-badge">
+                    Danh mục: UI/UX Design
+                    <span class="remove">✕</span>
+                </span>
+                <span class="filter-badge">
+                    Trạng thái: Đang tuyển
+                    <span class="remove">✕</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Demo Search Section -->
+        <div id="demoSection" class="card premium-card" style="display: none;">
+            <div class="form-group">
+                <label>🔍 Tìm kiếm nhanh</label>
+                <input type="text" placeholder="Nhập tên dự án..." style="width: 100%;">
+            </div>
+
+            <div class="divider"></div>
+
+            <h4 style="margin-bottom: 1rem;">⚙️ Bộ lọc chi tiết</h4>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>📁 Danh mục</label>
+                    <select style="width: 100%;">
+                        <option>Tất cả danh mục</option>
+                        <option>UI/UX Design</option>
+                        <option>Logo Design</option>
+                    </select>
+                </div>
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label>📊 Trạng thái</label>
+                    <select style="width: 100%;">
+                        <option>Tất cả trạng thái</option>
+                        <option>Đang tuyển</option>
+                    </select>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-secondary">🔄 Xóa bộ lọc</button>
+                <button class="btn btn-primary">✅ Áp dụng</button>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <h3>Hướng dẫn sử dụng:</h3>
+            <ol style="line-height: 2;">
+                <li>Nhấn nút "Tìm Kiếm & Lọc Dự Án" để mở bộ lọc</li>
+                <li>Chọn các tiêu chí lọc</li>
+                <li>Nhấn "Áp dụng" để lọc (bộ lọc tự động đóng)</li>
+                <li>Xem các bộ lọc đang active ở trên</li>
+                <li>Nhấn ✕ để xóa từng bộ lọc</li>
+                <li>Nhấn "Xóa bộ lọc" để xóa tất cả</li>
+            </ol>
+        </div>
+
+        <div class="card" style="margin-top: 2rem; background: var(--light-brown);">
+            <h3>💡 Lợi ích:</h3>
+            <ul style="line-height: 2;">
+                <li>✨ Giao diện gọn gàng hơn</li>
+                <li>🎯 Dễ dàng xem các bộ lọc đang áp dụng</li>
+                <li>⚡ Nhanh chóng xóa bộ lọc không cần</li>
+                <li>📱 Thân thiện với mobile</li>
+                <li>🎨 Trải nghiệm người dùng tốt hơn</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Demo toggle functionality
+        const demoToggle = document.getElementById('demoToggle');
+        const demoSection = document.getElementById('demoSection');
+        const demoIcon = document.getElementById('demoIcon');
+        const demoCount = document.getElementById('demoCount');
+
+        let isOpen = false;
+
+        demoToggle.addEventListener('click', function() {
+            isOpen = !isOpen;
+            if (isOpen) {
+                demoSection.style.display = 'block';
+                demoIcon.textContent = '🔼';
+                demoSection.classList.add('fade-in-up');
+                demoCount.style.display = 'inline-block';
+            } else {
+                demoSection.style.display = 'none';
+                demoIcon.textContent = '🔽';
+            }
+        });
+
+        // Demo remove filter
+        document.querySelectorAll('.remove').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.filter-badge').remove();
+                const remaining = document.querySelectorAll('.filter-badge').length;
+                if (remaining === 0) {
+                    document.getElementById('demoActiveFilters').style.display = 'none';
+                    demoCount.style.display = 'none';
+                } else {
+                    demoCount.textContent = remaining;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Tìm Kiếm & Lọc Danh Mục</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Demo Tìm Kiếm & Lọc Danh Mục</h1>
+        
+        <div class="card" style="background: linear-gradient(135deg, var(--light-brown), var(--white));">
+            <h3>✨ Tính năng:</h3>
+            <ul style="line-height: 2;">
+                <li>🔍 <strong>Tìm kiếm:</strong> Theo tên hoặc mô tả dự án</li>
+                <li>📁 <strong>Lọc:</strong> Theo danh mục</li>
+                <li>⚡ <strong>Real-time:</strong> Kết quả cập nhật ngay</li>
+                <li>🎯 <strong>Highlight:</strong> Từ khóa được làm nổi bật</li>
+                <li>📊 <strong>Counter:</strong> Hiển thị số lượng kết quả</li>
+            </ul>
+        </div>
+
+        <!-- Search & Filter -->
+        <div style="margin: 2rem 0;">
+            <!-- Search -->
+            <div style="margin-bottom: 1rem;">
+                <div style="position: relative;">
+                    <input 
+                        type="text" 
+                        id="demoSearch" 
+                        placeholder="🔍 Tìm kiếm dự án theo tên hoặc mô tả..." 
+                        style="width: 100%; padding: 1rem 1rem 1rem 3rem; border: 2px solid var(--border-color); border-radius: 10px; font-size: 1rem;"
+                    >
+                    <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); font-size: 1.2rem; color: var(--text-gray);">🔍</span>
+                </div>
+            </div>
+
+            <!-- Category Filter -->
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; background: var(--light-brown); padding: 1rem; border-radius: 10px;">
+                <label style="font-weight: 600; color: var(--text-dark);">📁 Danh mục:</label>
+                <select id="demoCategory" style="flex: 1; min-width: 200px; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; background: white;">
+                    <option value="all">🎨 Tất cả danh mục</option>
+                    <option value="Logo Design">🏷️ Thiết kế Logo</option>
+                    <option value="UI/UX Design">📱 UI/UX Design</option>
+                    <option value="Print Design">🖨️ In ấn</option>
+                </select>
+                <span id="demoCount" style="color: var(--text-dark); font-weight: 600; background: white; padding: 0.5rem 1rem; border-radius: 20px;">6 dự án</span>
+            </div>
+
+            <!-- Active Search -->
+            <div id="demoActive" style="display: none; margin-top: 1rem; padding: 0.75rem; background: var(--light-brown); border-radius: 8px; border-left: 4px solid var(--primary-brown);">
+                <span style="font-weight: 600;">🔍 Đang tìm:</span>
+                <span id="demoTerm"></span>
+                <button onclick="clearDemoSearch()" style="margin-left: 1rem; padding: 0.25rem 0.75rem; background: white; border: 1px solid var(--border-color); border-radius: 15px; cursor: pointer;">✕ Xóa</button>
+            </div>
+        </div>
+
+        <!-- Demo Projects -->
+        <div id="demoProjects" class="card-grid">
+            <!-- Will be populated by JS -->
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <h3>🎯 Cách sử dụng:</h3>
+            <ol style="line-height: 2;">
+                <li>Nhập từ khóa vào ô tìm kiếm (VD: "Logo", "App", "Brochure")</li>
+                <li>Hoặc chọn danh mục từ dropdown</li>
+                <li>Hoặc kết hợp cả hai</li>
+                <li>Kết quả tự động cập nhật</li>
+                <li>Từ khóa được highlight màu vàng</li>
+                <li>Nhấn "✕ Xóa" để xóa tìm kiếm</li>
+            </ol>
+        </div>
+
+        <div class="card" style="margin-top: 2rem; background: var(--light-brown);">
+            <h3>💡 Tips:</h3>
+            <ul style="line-height: 2;">
+                <li>Nhấn <kbd>Enter</kbd> để tìm kiếm ngay</li>
+                <li>Tìm kiếm không phân biệt hoa thường</li>
+                <li>Có thể tìm theo tên hoặc mô tả</li>
+                <li>Kết hợp tìm kiếm + lọc danh mục</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const demoSearch = document.getElementById('demoSearch');
+        const demoCategory = document.getElementById('demoCategory');
+        const demoProjects = document.getElementById('demoProjects');
+        const demoCount = document.getElementById('demoCount');
+        const demoActive = document.getElementById('demoActive');
+        const demoTerm = document.getElementById('demoTerm');
+
+        const allProjects = [
+            { id: 1, title: 'Thiết Kế Logo Công Ty', category: 'Logo Design', description: 'Cần thiết kế logo chuyên nghiệp cho công ty công nghệ', budget: 5000000 },
+            { id: 2, title: 'Thiết Kế UI/UX App Mobile', category: 'UI/UX Design', description: 'Thiết kế giao diện app thương mại điện tử', budget: 15000000 },
+            { id: 3, title: 'Thiết Kế Brochure Sản Phẩm', category: 'Print Design', description: 'Brochure giới thiệu sản phẩm mới', budget: 3000000 },
+            { id: 4, title: 'Thiết Kế Logo Startup', category: 'Logo Design', description: 'Logo cho startup công nghệ', budget: 4000000 },
+            { id: 5, title: 'Thiết Kế App Banking', category: 'UI/UX Design', description: 'Giao diện app ngân hàng hiện đại', budget: 20000000 },
+            { id: 6, title: 'Thiết Kế Poster Sự Kiện', category: 'Print Design', description: 'Poster quảng cáo sự kiện âm nhạc', budget: 2500000 }
+        ];
+
+        let searchTimeout;
+
+        function highlightText(text, search) {
+            if (!search) return text;
+            const regex = new RegExp(`(${search})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        function filterDemo() {
+            const searchText = demoSearch.value.toLowerCase().trim();
+            const category = demoCategory.value;
+
+            let filtered = allProjects;
+
+            // Search
+            if (searchText) {
+                filtered = filtered.filter(p => 
+                    p.title.toLowerCase().includes(searchText) ||
+                    p.description.toLowerCase().includes(searchText)
+                );
+                demoActive.style.display = 'block';
+                demoTerm.textContent = `"${demoSearch.value}"`;
+            } else {
+                demoActive.style.display = 'none';
+            }
+
+            // Category
+            if (category !== 'all') {
+                filtered = filtered.filter(p => p.category === category);
+            }
+
+            // Display
+            if (filtered.length === 0) {
+                demoProjects.innerHTML = `
+                    <div class="empty-search">
+                        <div class="empty-search-icon">🔍</div>
+                        <h3>Không tìm thấy dự án</h3>
+                        <p>Thử thay đổi từ khóa hoặc danh mục</p>
+                    </div>
+                `;
+            } else {
+                demoProjects.innerHTML = filtered.map(p => `
+                    <div class="card hover-lift fade-in-up">
+                        <span class="badge badge-success">Đang tuyển</span>
+                        <h3>${highlightText(p.title, demoSearch.value)}</h3>
+                        <p><strong>Danh mục:</strong> ${p.category}</p>
+                        <p><strong>Ngân sách:</strong> ${p.budget.toLocaleString('vi-VN')} VNĐ</p>
+                        <p style="margin-top: 1rem;">${highlightText(p.description, demoSearch.value)}</p>
+                        <button class="btn btn-primary">Xem Chi Tiết</button>
+                    </div>
+                `).join('');
+            }
+
+            demoCount.textContent = `${filtered.length} dự án`;
+        }
+
+        window.clearDemoSearch = function() {
+            demoSearch.value = '';
+            filterDemo();
+            demoSearch.focus();
+        };
+
+        demoSearch.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(filterDemo, 300);
+        });
+
+        demoSearch.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                clearTimeout(searchTimeout);
+                filterDemo();
+            }
+        });
+
+        demoCategory.addEventListener('change', filterDemo);
+
+        // Initial display
+        filterDemo();
+    </script>
+</body>
+</html>

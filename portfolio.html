@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bài Đăng - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="portfolio.html" class="active">Bài Đăng</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+                <h1>🎨 Bài Đăng & Tác Phẩm</h1>
+                <p style="color: var(--text-gray);">Khám phá các tác phẩm thiết kế từ cộng đồng</p>
+            </div>
+            <a href="create-post.html" class="btn btn-primary">+ Đăng Bài Mới</a>
+        </div>
+
+        <!-- Bộ lọc -->
+        <div style="margin-bottom: 2rem;">
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; background: var(--light-brown); padding: 1rem; border-radius: 10px;">
+                <label style="font-weight: 600;">📁 Lọc:</label>
+                <select id="filterCategory" style="padding: 0.5rem; border-radius: 5px;">
+                    <option value="all">Tất cả</option>
+                    <option value="logo">Logo Design</option>
+                    <option value="uiux">UI/UX Design</option>
+                    <option value="print">Print Design</option>
+                    <option value="branding">Branding</option>
+                    <option value="packaging">Packaging</option>
+                    <option value="web">Web Design</option>
+                    <option value="illustration">Illustration</option>
+                </select>
+                <select id="sortBy" style="padding: 0.5rem; border-radius: 5px;">
+                    <option value="newest">Mới nhất</option>
+                    <option value="popular">Phổ biến</option>
+                    <option value="mostLiked">Nhiều like</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Grid Portfolio -->
+        <div id="portfolioGrid" class="card-grid">
+            <!-- Loading -->
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Đang tải...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+        <p>NguyenVoMinhThu_110122174</p>
+    </footer>
+
+    <script src="js/portfolio.js"></script>
+</body>
+</html>

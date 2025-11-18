@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Bài - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="portfolio.html">Portfolio</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h1>📝 Đăng Bài Mới</h1>
+            <p style="color: var(--text-gray); margin-bottom: 2rem;">Chia sẻ tác phẩm thiết kế của bạn với cộng đồng</p>
+
+            <form id="createPostForm" class="form-container">
+                <!-- Tiêu đề -->
+                <div class="form-group">
+                    <label>📌 Tiêu đề bài viết *</label>
+                    <input type="text" id="postTitle" placeholder="VD: Logo Design cho Startup Công Nghệ" required>
+                </div>
+
+                <!-- Danh mục -->
+                <div class="form-group">
+                    <label>📁 Danh mục *</label>
+                    <select id="postCategory" required>
+                        <option value="">-- Chọn danh mục --</option>
+                        <option value="logo">🏷️ Logo Design</option>
+                        <option value="uiux">📱 UI/UX Design</option>
+                        <option value="print">🖨️ Print Design</option>
+                        <option value="branding">✨ Branding</option>
+                        <option value="packaging">📦 Packaging</option>
+                        <option value="web">🌐 Web Design</option>
+                        <option value="illustration">🎨 Illustration</option>
+                        <option value="other">📋 Khác</option>
+                    </select>
+                </div>
+
+                <!-- Mô tả -->
+                <div class="form-group">
+                    <label>📝 Mô tả dự án *</label>
+                    <textarea id="postDescription" rows="6" placeholder="Mô tả chi tiết về dự án, ý tưởng, quy trình làm việc..." required></textarea>
+                </div>
+
+                <!-- Tags -->
+                <div class="form-group">
+                    <label>🏷️ Tags (phân cách bằng dấu phẩy)</label>
+                    <input type="text" id="postTags" placeholder="VD: logo, branding, minimalist, modern">
+                    <small style="color: var(--text-gray);">Giúp người khác dễ dàng tìm thấy bài viết của bạn</small>
+                </div>
+
+                <!-- Upload ảnh -->
+                <div class="form-group">
+                    <label>🖼️ Hình ảnh *</label>
+                    <input type="file" id="postImages" accept="image/*" multiple>
+                    <small style="color: var(--text-gray);">Chọn tối đa 5 ảnh (JPG, PNG, max 5MB/ảnh)</small>
+                    <div id="imagePreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem;"></div>
+                </div>
+
+                <!-- Link dự án -->
+                <div class="form-group">
+                    <label>🔗 Link dự án (nếu có)</label>
+                    <input type="url" id="postLink" placeholder="https://...">
+                </div>
+
+                <!-- Client info -->
+                <div class="form-group">
+                    <label>👤 Tên khách hàng (tùy chọn)</label>
+                    <input type="text" id="clientName" placeholder="VD: ABC Company">
+                </div>
+
+                <!-- Thời gian hoàn thành -->
+                <div class="form-group">
+                    <label>⏱️ Thời gian hoàn thành</label>
+                    <input type="text" id="completionTime" placeholder="VD: 2 tuần">
+                </div>
+
+                <!-- Công cụ sử dụng -->
+                <div class="form-group">
+                    <label>🛠️ Công cụ sử dụng</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="tools" value="Photoshop"> Photoshop
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="tools" value="Illustrator"> Illustrator
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="tools" value="Figma"> Figma
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="tools" value="Sketch"> Sketch
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="tools" value="InDesign"> InDesign
+                        </label>
+                        <label style="display: flex; align-items: center; gap: 0.5rem;">
+                            <input type="checkbox" name="tools" value="After Effects"> After Effects
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Buttons -->
+                <div style="display: flex; gap: 1rem; margin-top: 2rem;">
+                    <button type="submit" class="btn btn-primary" style="flex: 1;">
+                        ✅ Đăng Bài
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="saveDraft()">
+                        💾 Lưu Nháp
+                    </button>
+                    <button type="button" class="btn btn-secondary" onclick="previewPost()">
+                        👁️ Xem Trước
+                    </button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+        <p>NguyenVoMinhThu_110122174</p>
+    </footer>
+
+    <script src="js/create-post.js"></script>
+</body>
+</html>

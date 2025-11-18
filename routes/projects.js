@@ -2,16 +2,63 @@ const express = require('express');
 const router = express.Router();
 const Project = require('../models/Project');
 
-// Lấy tất cả projects
+// Lấy tất cả projects với tìm kiếm và lọc
 router.get('/', async (req, res) => {
   try {
-    const projects = await Project.find()
+    const { search, category, status, minBudget, maxBudget, sort } = req.query;
+    
+    // Build query
+    let query = {};
+    
+    // Tìm kiếm theo tên hoặc mô tả
+    if (search) {
+      query.$or = [
+        { title: { $regex: search, $options: 'i' } },
+        { description: { $regex: search, $options: 'i' } }
+      ];
+    }
+    
+    // Lọc theo danh mục
+    if (category && category !== 'all') {
+      query.category = category;
+    }
+    
+    // Lọc theo trạng thái
+    if (status && status !== 'all') {
+      query.status = status;
+    }
+    
+    // Lọc theo ngân sách
+    if (minBudget || maxBudget) {
+      query.budget = {};
+      if (minBudget) query.budget.$gte = Number(minBudget);
+      if (maxBudget) query.budget.$lte = Number(maxBudget);
+    }
+    
+    // Sắp xếp
+    let sortOption = { createdAt: -1 }; // Mặc định: mới nhất
+    if (sort === 'oldest') sortOption = { createdAt: 1 };
+    if (sort === 'budget-high') sortOption = { budget: -1 };
+    if (sort === 'budget-low') sortOption = { budget: 1 };
+    if (sort === 'deadline') sortOption = { deadline: 1 };
+    
+    const projects = await Project.find(query)
       .populate('client', 'fullName email')
       .populate('designer', 'fullName email')
-      .sort({ createdAt: -1 });
-    res.json(projects);
+      .sort(sortOption);
+    
+    res.json({
+      success: true,
+      count: projects.length,
+      projects
+    });
   } catch (error) {
-    res.status(500).json({ message: 'Lỗi server', error: error.message });
+    console.error('Lỗi lấy dự án:', error);
+    res.status(500).json({ 
+      success: false,
+      message: 'Lỗi server', 
+      error: error.message 
+    });
   }
 });
 

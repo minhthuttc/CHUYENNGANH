@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo - Lọc Theo Danh Mục</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Demo Lọc Theo Danh Mục</h1>
+        
+        <div class="card" style="background: var(--light-brown);">
+            <h3>✨ Giao diện đơn giản, gọn gàng</h3>
+            <p>Chỉ hiển thị bộ lọc danh mục - dễ sử dụng nhất!</p>
+        </div>
+
+        <!-- Category Filter -->
+        <div style="margin: 2rem 0;">
+            <div style="display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; background: var(--light-brown); padding: 1.5rem; border-radius: 10px; box-shadow: var(--shadow);">
+                <label style="font-weight: 600; color: var(--text-dark); white-space: nowrap; font-size: 1.1rem;">📁 Danh mục:</label>
+                <select id="demoCategory" style="flex: 1; min-width: 200px; padding: 0.75rem; border: 2px solid var(--border-color); border-radius: 8px; font-size: 1rem; cursor: pointer;">
+                    <option value="all">🎨 Tất cả danh mục</option>
+                    <option value="Logo Design">🏷️ Thiết kế Logo</option>
+                    <option value="UI/UX Design">📱 UI/UX Design</option>
+                    <option value="Print Design">🖨️ In ấn</option>
+                    <option value="Branding">✨ Branding</option>
+                    <option value="Packaging Design">📦 Bao bì</option>
+                    <option value="Digital Marketing">📢 Marketing</option>
+                    <option value="Illustration">🎨 Minh họa</option>
+                    <option value="Web Design">🌐 Thiết kế Web</option>
+                </select>
+                <span id="demoCount" style="color: var(--text-gray); white-space: nowrap; font-weight: 600;">12 dự án</span>
+            </div>
+        </div>
+
+        <!-- Demo Projects -->
+        <div id="demoProjects" class="card-grid">
+            <div class="card hover-lift">
+                <span class="badge badge-success">Đang tuyển</span>
+                <h3>Thiết Kế Logo Công Ty</h3>
+                <p><strong>Danh mục:</strong> Logo Design</p>
+                <p><strong>Ngân sách:</strong> 5.000.000 VNĐ</p>
+                <button class="btn btn-primary">Xem Chi Tiết</button>
+            </div>
+
+            <div class="card hover-lift">
+                <span class="badge badge-success">Đang tuyển</span>
+                <h3>Thiết Kế UI/UX App</h3>
+                <p><strong>Danh mục:</strong> UI/UX Design</p>
+                <p><strong>Ngân sách:</strong> 15.000.000 VNĐ</p>
+                <button class="btn btn-primary">Xem Chi Tiết</button>
+            </div>
+
+            <div class="card hover-lift">
+                <span class="badge badge-success">Đang tuyển</span>
+                <h3>Thiết Kế Brochure</h3>
+                <p><strong>Danh mục:</strong> Print Design</p>
+                <p><strong>Ngân sách:</strong> 3.000.000 VNĐ</p>
+                <button class="btn btn-primary">Xem Chi Tiết</button>
+            </div>
+        </div>
+
+        <div class="card" style="margin-top: 2rem;">
+            <h3>✅ Ưu điểm:</h3>
+            <ul style="line-height: 2;">
+                <li>🎯 <strong>Đơn giản:</strong> Chỉ 1 dropdown, dễ hiểu</li>
+                <li>⚡ <strong>Nhanh:</strong> Không cần mở/đóng bộ lọc</li>
+                <li>📱 <strong>Mobile-friendly:</strong> Responsive tốt</li>
+                <li>👁️ <strong>Trực quan:</strong> Thấy ngay số lượng dự án</li>
+                <li>🎨 <strong>Đẹp:</strong> Icon cho mỗi danh mục</li>
+                <li>✨ <strong>Gọn gàng:</strong> Không chiếm nhiều không gian</li>
+            </ul>
+        </div>
+
+        <div class="card" style="margin-top: 2rem; background: linear-gradient(135deg, var(--light-brown), var(--white));">
+            <h3>🚀 Cách sử dụng:</h3>
+            <ol style="line-height: 2; font-size: 1.1rem;">
+                <li>Chọn danh mục từ dropdown</li>
+                <li>Danh sách dự án tự động lọc</li>
+                <li>Số lượng dự án cập nhật ngay</li>
+                <li>Chọn "Tất cả danh mục" để xem tất cả</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        const demoCategory = document.getElementById('demoCategory');
+        const demoCount = document.getElementById('demoCount');
+        const demoProjects = document.getElementById('demoProjects');
+
+        const allProjects = [
+            { title: 'Thiết Kế Logo Công Ty', category: 'Logo Design', budget: 5000000 },
+            { title: 'Thiết Kế UI/UX App', category: 'UI/UX Design', budget: 15000000 },
+            { title: 'Thiết Kế Brochure', category: 'Print Design', budget: 3000000 },
+            { title: 'Thiết Kế Logo Startup', category: 'Logo Design', budget: 4000000 },
+            { title: 'Thiết Kế Website', category: 'Web Design', budget: 20000000 },
+            { title: 'Thiết Kế Bao Bì', category: 'Packaging Design', budget: 6000000 }
+        ];
+
+        demoCategory.addEventListener('change', function() {
+            const selected = this.value;
+            let filtered = allProjects;
+
+            if (selected !== 'all') {
+                filtered = allProjects.filter(p => p.category === selected);
+            }
+
+            demoCount.textContent = `${filtered.length} dự án`;
+
+            // Update display
+            if (filtered.length === 0) {
+                demoProjects.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">📭</div>
+                        <h3>Không có dự án</h3>
+                        <p>Chưa có dự án trong danh mục này</p>
+                    </div>
+                `;
+            } else {
+                demoProjects.innerHTML = filtered.map(p => `
+                    <div class="card hover-lift fade-in-up">
+                        <span class="badge badge-success">Đang tuyển</span>
+                        <h3>${p.title}</h3>
+                        <p><strong>Danh mục:</strong> ${p.category}</p>
+                        <p><strong>Ngân sách:</strong> ${p.budget.toLocaleString('vi-VN')} VNĐ</p>
+                        <button class="btn btn-primary">Xem Chi Tiết</button>
+                    </div>
+                `).join('');
+            }
+        });
+    </script>
+</body>
+</html>

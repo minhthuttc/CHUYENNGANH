@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Tìm Kiếm & Lọc Dự Án</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Test Tìm Kiếm & Lọc Dự Án</h1>
+        
+        <div class="card">
+            <h3>Test Cases</h3>
+            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                <button onclick="testLoadAll()" class="btn btn-primary">1. Load tất cả dự án</button>
+                <button onclick="testSearchByName()" class="btn btn-primary">2. Tìm kiếm theo tên "Logo"</button>
+                <button onclick="testFilterByCategory()" class="btn btn-primary">3. Lọc theo danh mục "UI/UX"</button>
+                <button onclick="testFilterByStatus()" class="btn btn-primary">4. Lọc trạng thái "Đang tuyển"</button>
+                <button onclick="testFilterByBudget()" class="btn btn-primary">5. Lọc ngân sách 5-10 triệu</button>
+                <button onclick="testSortByBudget()" class="btn btn-primary">6. Sắp xếp theo ngân sách cao</button>
+                <button onclick="testCombinedFilters()" class="btn btn-primary">7. Kết hợp nhiều bộ lọc</button>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3>Kết quả</h3>
+            <div id="result" style="background: #f5f5f5; padding: 1rem; border-radius: 5px; min-height: 200px; font-family: monospace; white-space: pre-wrap;"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000/api';
+        const resultDiv = document.getElementById('result');
+
+        function showResult(title, data) {
+            resultDiv.innerHTML = `
+✅ ${title}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${JSON.stringify(data, null, 2)}
+            `;
+        }
+
+        function showError(title, error) {
+            resultDiv.innerHTML = `
+❌ ${title}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+${error}
+            `;
+        }
+
+        async function testLoadAll() {
+            try {
+                const response = await fetch(`${API_URL}/projects`);
+                const data = await response.json();
+                showResult('Load tất cả dự án', {
+                    success: data.success,
+                    count: data.count,
+                    projects: data.projects.map(p => ({
+                        title: p.title,
+                        category: p.category,
+                        status: p.status,
+                        budget: p.budget
+                    }))
+                });
+            } catch (error) {
+                showError('Load tất cả dự án', error.message);
+            }
+        }
+
+        async function testSearchByName() {
+            try {
+                const response = await fetch(`${API_URL}/projects?search=Logo`);
+                const data = await response.json();
+                showResult('Tìm kiếm "Logo"', {
+                    success: data.success,
+                    count: data.count,
+                    projects: data.projects.map(p => p.title)
+                });
+            } catch (error) {
+                showError('Tìm kiếm', error.message);
+            }
+        }
+
+        async function testFilterByCategory() {
+            try {
+                const response = await fetch(`${API_URL}/projects?category=UI/UX Design`);
+                const data = await response.json();
+                showResult('Lọc danh mục "UI/UX Design"', {
+                    success: data.success,
+                    count: data.count,
+                    projects: data.projects.map(p => ({
+                        title: p.title,
+                        category: p.category
+                    }))
+                });
+            } catch (error) {
+                showError('Lọc danh mục', error.message);
+            }
+        }
+
+        async function testFilterByStatus() {
+            try {
+                const response = await fetch(`${API_URL}/projects?status=open`);
+                const data = await response.json();
+                showResult('Lọc trạng thái "open"', {
+                    success: data.success,
+                    count: data.count,
+                    projects: data.projects.map(p => ({
+                        title: p.title,
+                        status: p.status
+                    }))
+                });
+            } catch (error) {
+                showError('Lọc trạng thái', error.message);
+            }
+        }
+
+        async function testFilterByBudget() {
+            try {
+                const response = await fetch(`${API_URL}/projects?minBudget=5000000&maxBudget=10000000`);
+                const data = await response.json();
+                showResult('Lọc ngân sách 5-10 triệu', {
+                    success: data.success,
+                    count: data.count,
+                    projects: data.projects.map(p => ({
+                        title: p.title,
+                        budget: p.budget.toLocaleString('vi-VN')
+                    }))
+                });
+            } catch (error) {
+                showError('Lọc ngân sách', error.message);
+            }
+        }
+
+        async function testSortByBudget() {
+            try {
+                const response = await fetch(`${API_URL}/projects?sort=budget-high`);
+                const data = await response.json();
+                showResult('Sắp xếp theo ngân sách cao', {
+                    success: data.success,
+                    count: data.count,
+                    projects: data.projects.slice(0, 5).map(p => ({
+                        title: p.title,
+                        budget: p.budget.toLocaleString('vi-VN')
+                    }))
+                });
+            } catch (error) {
+                showError('Sắp xếp', error.message);
+            }
+        }
+
+        async function testCombinedFilters() {
+            try {
+                const response = await fetch(`${API_URL}/projects?status=open&minBudget=3000000&sort=budget-high`);
+                const data = await response.json();
+                showResult('Kết hợp: Đang tuyển + Ngân sách > 3tr + Sắp xếp cao', {
+                    success: data.success,
+                    count: data.count,
+                    projects: data.projects.map(p => ({
+                        title: p.title,
+                        status: p.status,
+                        budget: p.budget.toLocaleString('vi-VN')
+                    }))
+                });
+            } catch (error) {
+                showError('Kết hợp bộ lọc', error.message);
+            }
+        }
+
+        // Auto test khi load trang
+        window.onload = () => {
+            resultDiv.innerHTML = '👋 Chọn một test case để bắt đầu!';
+        };
+    </script>
+</body>
+</html>
