@@ -13,18 +13,39 @@ app.use(express.static('.'));
 // Import init admin
 const initDefaultAdmin = require('./init-admin');
 
-// MongoDB Connection
-mongoose.connect(process.env.MONGODB_URI)
-  .then(async () => {
+// MongoDB Connection với timeout và retry
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGODB_URI, {
+      serverSelectionTimeoutMS: 30000, // Tăng timeout lên 30 giây
+      socketTimeoutMS: 45000,
+      maxPoolSize: 10,
+      minPoolSize: 5,
+      maxIdleTimeMS: 30000
+    });
+    
     console.log('✅ Kết nối MongoDB thành công!');
     console.log('📊 Database: designhub');
+    console.log(`🔗 Host: ${conn.connection.host}`);
     
     // Tạo admin mặc định
     await initDefaultAdmin();
-  })
-  .catch((err) => {
-    console.error('❌ Lỗi kết nối MongoDB:', err.message);
-  });
+    
+  } catch (error) {
+    console.error('❌ Lỗi kết nối MongoDB:', error.message);
+    console.log('🔧 Hướng dẫn sửa lỗi:');
+    console.log('1. Kiểm tra IP whitelist trong MongoDB Atlas');
+    console.log('2. Đảm bảo internet ổn định');
+    console.log('3. Kiểm tra username/password trong .env');
+    
+    // Retry sau 5 giây
+    console.log('🔄 Thử kết nối lại sau 5 giây...');
+    setTimeout(connectDB, 5000);
+  }
+};
+
+// Kết nối database
+connectDB();
 
 // Import routes
 const userRoutes = require('./routes/users');
