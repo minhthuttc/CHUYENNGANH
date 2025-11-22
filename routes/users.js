@@ -2,10 +2,17 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 
-// Lấy tất cả users
+// Lấy tất cả users (có thể filter theo userType)
 router.get('/', async (req, res) => {
   try {
-    const users = await User.find().select('-password');
+    const { userType } = req.query;
+    let query = {};
+    
+    if (userType) {
+      query.userType = userType;
+    }
+    
+    const users = await User.find(query).select('-password');
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: 'Lỗi server', error: error.message });

@@ -145,4 +145,20 @@ router.post('/login', async (req, res) => {
   }
 });
 
+// Lấy thông tin user theo ID
+router.get('/user/:id', async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select('-password');
+    
+    if (!user) {
+      return res.status(404).json({ message: 'Không tìm thấy người dùng' });
+    }
+
+    res.json(user);
+  } catch (error) {
+    console.error('Lỗi lấy thông tin user:', error);
+    res.status(500).json({ message: 'Lỗi server' });
+  }
+});
+
 module.exports = router;

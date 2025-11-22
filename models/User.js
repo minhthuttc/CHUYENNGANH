@@ -19,6 +19,14 @@ const userSchema = new mongoose.Schema({
     required: false,
     default: ''
   },
+  address: {
+    type: String,
+    default: ''
+  },
+  website: {
+    type: String,
+    default: ''
+  },
   userType: {
     type: String,
     enum: ['designer', 'client', 'admin'],

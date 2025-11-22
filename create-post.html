@@ -14,8 +14,7 @@
                 <li><a href="index.html">Trang Chủ</a></li>
                 <li><a href="projects.html">Dự Án</a></li>
                 <li><a href="designers.html">Nhà Thiết Kế</a></li>
-                <li><a href="portfolio.html">Portfolio</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="portfolio.html">Bài Đăng</a></li>
             </ul>
         </nav>
     </header>
@@ -37,14 +36,9 @@
                     <label>📁 Danh mục *</label>
                     <select id="postCategory" required>
                         <option value="">-- Chọn danh mục --</option>
-                        <option value="logo">🏷️ Logo Design</option>
-                        <option value="uiux">📱 UI/UX Design</option>
-                        <option value="print">🖨️ Print Design</option>
-                        <option value="branding">✨ Branding</option>
-                        <option value="packaging">📦 Packaging</option>
-                        <option value="web">🌐 Web Design</option>
-                        <option value="illustration">🎨 Illustration</option>
-                        <option value="other">📋 Khác</option>
+                        <option value="logo">Thiết kế Logo</option>
+                        <option value="uiux">UI/UX Design</option>
+                        <option value="print">Thiết kế Poster</option>
                     </select>
                 </div>
 
@@ -58,58 +52,14 @@
                 <div class="form-group">
                     <label>🏷️ Tags (phân cách bằng dấu phẩy)</label>
                     <input type="text" id="postTags" placeholder="VD: logo, branding, minimalist, modern">
-                    <small style="color: var(--text-gray);">Giúp người khác dễ dàng tìm thấy bài viết của bạn</small>
                 </div>
 
                 <!-- Upload ảnh -->
                 <div class="form-group">
-                    <label>🖼️ Hình ảnh *</label>
+                    <label>🖼️ Hình ảnh</label>
                     <input type="file" id="postImages" accept="image/*" multiple>
-                    <small style="color: var(--text-gray);">Chọn tối đa 5 ảnh (JPG, PNG, max 5MB/ảnh)</small>
+                    <small style="color: var(--text-gray);">Chọn tối đa 5 ảnh (JPG, PNG)</small>
                     <div id="imagePreview" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 1rem; margin-top: 1rem;"></div>
-                </div>
-
-                <!-- Link dự án -->
-                <div class="form-group">
-                    <label>🔗 Link dự án (nếu có)</label>
-                    <input type="url" id="postLink" placeholder="https://...">
-                </div>
-
-                <!-- Client info -->
-                <div class="form-group">
-                    <label>👤 Tên khách hàng (tùy chọn)</label>
-                    <input type="text" id="clientName" placeholder="VD: ABC Company">
-                </div>
-
-                <!-- Thời gian hoàn thành -->
-                <div class="form-group">
-                    <label>⏱️ Thời gian hoàn thành</label>
-                    <input type="text" id="completionTime" placeholder="VD: 2 tuần">
-                </div>
-
-                <!-- Công cụ sử dụng -->
-                <div class="form-group">
-                    <label>🛠️ Công cụ sử dụng</label>
-                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.5rem;">
-                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                            <input type="checkbox" name="tools" value="Photoshop"> Photoshop
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                            <input type="checkbox" name="tools" value="Illustrator"> Illustrator
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                            <input type="checkbox" name="tools" value="Figma"> Figma
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                            <input type="checkbox" name="tools" value="Sketch"> Sketch
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                            <input type="checkbox" name="tools" value="InDesign"> InDesign
-                        </label>
-                        <label style="display: flex; align-items: center; gap: 0.5rem;">
-                            <input type="checkbox" name="tools" value="After Effects"> After Effects
-                        </label>
-                    </div>
                 </div>
 
                 <!-- Buttons -->
@@ -117,12 +67,9 @@
                     <button type="submit" class="btn btn-primary" style="flex: 1;">
                         ✅ Đăng Bài
                     </button>
-                    <button type="button" class="btn btn-secondary" onclick="saveDraft()">
-                        💾 Lưu Nháp
-                    </button>
-                    <button type="button" class="btn btn-secondary" onclick="previewPost()">
-                        👁️ Xem Trước
-                    </button>
+                    <a href="portfolio.html" class="btn btn-secondary">
+                        ❌ Hủy
+                    </a>
                 </div>
             </form>
         </div>

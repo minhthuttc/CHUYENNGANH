@@ -12,121 +12,48 @@ async function seedData() {
         await mongoose.connect(process.env.MONGODB_URI);
         console.log('✅ Kết nối MongoDB thành công!');
 
-        // Xóa dữ liệu cũ
-        await User.deleteMany({});
+        // Xóa dữ liệu cũ (chỉ xóa designers)
+        await User.deleteMany({ userType: 'designer' });
         await Project.deleteMany({});
         await Transaction.deleteMany({});
         console.log('🗑️  Đã xóa dữ liệu cũ');
 
-        // Tạo admin
-        const adminPassword = await bcrypt.hash('admin123', 10);
-        const admin = await User.create({
-            fullName: 'Admin',
-            email: 'admin@designhub.com',
-            password: adminPassword,
-            userType: 'admin',
-            status: 'active'
-        });
-        console.log('✅ Đã tạo tài khoản admin');
-
-        // Tạo designers
+        // Tạo designers với thông tin liên hệ
         const designers = [];
-        for (let i = 1; i <= 10; i++) {
+        const designerNames = [
+            { name: 'Phạm Quang Vinh', bio: 'Chuyên gia Thiết kế Logo', skills: ['Thiết kế Logo', 'Adobe Illustrator', 'Photoshop'] },
+            { name: 'Nguyễn Thành Trung', bio: 'Chuyên gia UI/UX Design', skills: ['UI/UX Design', 'Figma', 'Prototyping'] },
+            { name: 'Nguyễn Nhật Trường', bio: 'Chuyên gia Thiết kế Poster', skills: ['Thiết kế Poster', 'InDesign', 'Photoshop'] },
+            { name: 'Hứa Thị Thảo Vy', bio: 'Chuyên gia Thiết kế Logo', skills: ['Thiết kế Logo', 'Branding', 'Illustrator'] },
+            { name: 'Lâm Vĩnh Lộc', bio: 'Chuyên gia UI/UX Design', skills: ['UI/UX Design', 'Sketch', 'Adobe XD'] },
+            { name: 'Nguyễn Huỳnh Kỹ Thuật', bio: 'Chuyên gia Thiết kế Poster', skills: ['Thiết kế Poster', 'Print Design', 'InDesign'] }
+        ];
+        const cities = ['Hà Nội', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Cần Thơ', 'Hải Phòng'];
+        
+        for (let i = 0; i < designerNames.length; i++) {
             const password = await bcrypt.hash('123456', 10);
             const designer = await User.create({
-                fullName: `Nhà Thiết Kế ${i}`,
-                email: `designer${i}@example.com`,
+                fullName: designerNames[i].name,
+                email: `designer${i + 1}@example.com`,
                 password: password,
+                phone: `09${Math.floor(10000000 + Math.random() * 90000000)}`,
+                address: `${cities[Math.floor(Math.random() * cities.length)]}, Việt Nam`,
+                website: `www.${designerNames[i].name.toLowerCase().replace(/\s+/g, '')}.com`,
                 userType: 'designer',
                 status: 'active',
-                bio: `Chuyên gia thiết kế với ${i + 2} năm kinh nghiệm`,
-                skills: ['Logo Design', 'Branding', 'UI/UX'],
+                bio: designerNames[i].bio,
+                skills: designerNames[i].skills,
                 rating: 4 + Math.random(),
                 reviewCount: Math.floor(Math.random() * 50) + 10,
                 completedProjects: Math.floor(Math.random() * 100) + 20
             });
             designers.push(designer);
         }
-        console.log('✅ Đã tạo 10 nhà thiết kế');
-
-        // Tạo clients
-        const clients = [];
-        for (let i = 1; i <= 5; i++) {
-            const password = await bcrypt.hash('123456', 10);
-            const client = await User.create({
-                fullName: `Khách Hàng ${i}`,
-                email: `client${i}@example.com`,
-                password: password,
-                userType: 'client',
-                status: 'active'
-            });
-            clients.push(client);
-        }
-        console.log('✅ Đã tạo 5 khách hàng');
-
-        // Tạo projects
-        const projectTitles = [
-            'Thiết Kế Logo Công Ty',
-            'Thiết Kế UI/UX App Mobile',
-            'Thiết Kế Brochure Sản Phẩm',
-            'Thiết Kế Banner Quảng Cáo',
-            'Thiết Kế Poster Sự Kiện',
-            'Thiết Kế Bao Bì Sản Phẩm',
-            'Thiết Kế Website Landing Page',
-            'Thiết Kế Catalogue',
-            'Thiết Kế Menu Nhà Hàng',
-            'Thiết Kế Card Visit'
-        ];
-
-        const categories = ['logo', 'uiux', 'print', 'branding', 'illustration'];
-        const statuses = ['recruiting', 'in_progress', 'completed'];
-
-        const projects = [];
-        for (let i = 0; i < 15; i++) {
-            const client = clients[Math.floor(Math.random() * clients.length)];
-            const designer = Math.random() > 0.3 ? designers[Math.floor(Math.random() * designers.length)] : null;
-            const status = designer ? statuses[Math.floor(Math.random() * statuses.length)] : 'recruiting';
-            
-            const project = await Project.create({
-                title: projectTitles[i % projectTitles.length],
-                description: `Mô tả chi tiết cho dự án ${projectTitles[i % projectTitles.length]}`,
-                category: categories[Math.floor(Math.random() * categories.length)],
-                budget: (Math.floor(Math.random() * 20) + 2) * 1000000,
-                deadline: new Date(Date.now() + Math.random() * 30 * 24 * 60 * 60 * 1000),
-                client: client._id,
-                designer: designer?._id,
-                status: status,
-                requirements: ['Yêu cầu 1', 'Yêu cầu 2', 'Yêu cầu 3'],
-                skills: ['Photoshop', 'Illustrator'],
-                progress: status === 'completed' ? 100 : Math.floor(Math.random() * 80)
-            });
-            projects.push(project);
-        }
-        console.log('✅ Đã tạo 15 dự án');
-
-        // Tạo transactions
-        const completedProjects = projects.filter(p => p.status === 'completed');
-        for (const project of completedProjects) {
-            if (project.designer) {
-                await Transaction.create({
-                    project: project._id,
-                    from: project.client,
-                    to: project.designer,
-                    amount: project.budget,
-                    status: 'completed',
-                    paymentMethod: 'bank_transfer',
-                    description: `Thanh toán cho dự án: ${project.title}`,
-                    completedAt: new Date()
-                });
-            }
-        }
-        console.log('✅ Đã tạo giao dịch');
+        console.log('✅ Đã tạo 6 nhà thiết kế với thông tin liên hệ');
 
         console.log('\n🎉 Hoàn tất tạo dữ liệu mẫu!');
         console.log('\n📝 Thông tin đăng nhập:');
-        console.log('Admin: admin@designhub.com / admin123');
         console.log('Designer: designer1@example.com / 123456');
-        console.log('Client: client1@example.com / 123456');
 
         process.exit(0);
     } catch (error) {
