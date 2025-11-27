@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chi Tiết Bài Đăng - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="portfolio.html">Bài Đăng</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <!-- Back button -->
+            <a href="portfolio.html" style="display: inline-block; margin-bottom: 2rem; color: var(--primary-color); text-decoration: none;">
+                ← Quay lại
+            </a>
+
+            <div class="card">
+                <!-- Post image -->
+                <div style="width: 100%; max-height: 600px; overflow: hidden; border-radius: 10px; margin-bottom: 2rem;">
+                    <img id="postImage" src="https://via.placeholder.com/1200x800?text=Design+Image" 
+                         style="width: 100%; height: auto; object-fit: cover;">
+                </div>
+
+                <!-- Post info -->
+                <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 1rem; flex-wrap: wrap; gap: 1rem;">
+                    <div style="flex: 1;">
+                        <h1 id="postTitle" style="margin-bottom: 0.5rem;">Đang tải...</h1>
+                        <p id="postCategory" class="badge badge-info" style="display: inline-block;">...</p>
+                    </div>
+                    <div style="text-align: right;">
+                        <p style="color: var(--text-gray); margin-bottom: 0.5rem;">
+                            <span>❤️ <span id="postLikes">0</span></span>
+                            <span style="margin-left: 1rem;">👁️ <span id="postViews">0</span></span>
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Author info -->
+                <div style="display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--light-brown); border-radius: 10px; margin-bottom: 2rem;">
+                    <div style="width: 60px; height: 60px; background: var(--primary-color); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 2rem;">
+                        👨‍🎨
+                    </div>
+                    <div style="flex: 1;">
+                        <h3 id="authorName" style="margin: 0;">...</h3>
+                        <p id="authorBio" style="color: var(--text-gray); margin: 0;">...</p>
+                    </div>
+                    <a id="authorProfileLink" href="#" class="btn btn-secondary">Xem Hồ Sơ</a>
+                </div>
+
+                <!-- Description -->
+                <div style="margin-bottom: 2rem;">
+                    <h3>Mô tả</h3>
+                    <p id="postDescription" style="color: var(--text-gray); line-height: 1.6;">...</p>
+                </div>
+
+                <!-- Tags -->
+                <div id="postTagsContainer" style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <!-- Tags will be loaded here -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+        <p>NguyenVoMinhThu_110122174</p>
+    </footer>
+
+    <script src="js/post-detail.js"></script>
+</body>
+</html>
