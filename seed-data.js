@@ -28,7 +28,6 @@ async function seedData() {
             { name: 'Lâm Vĩnh Lộc', bio: 'Chuyên gia UI/UX Design', skills: ['UI/UX Design', 'Sketch', 'Adobe XD'] },
             { name: 'Nguyễn Huỳnh Kỹ Thuật', bio: 'Chuyên gia Thiết kế Poster', skills: ['Thiết kế Poster', 'Print Design', 'InDesign'] }
         ];
-        const cities = ['Hà Nội', 'TP. Hồ Chí Minh', 'Đà Nẵng', 'Cần Thơ', 'Hải Phòng'];
         
         for (let i = 0; i < designerNames.length; i++) {
             const password = await bcrypt.hash('123456', 10);
@@ -37,8 +36,8 @@ async function seedData() {
                 email: `designer${i + 1}@example.com`,
                 password: password,
                 phone: `09${Math.floor(10000000 + Math.random() * 90000000)}`,
-                address: `${cities[Math.floor(Math.random() * cities.length)]}, Việt Nam`,
-                website: `www.${designerNames[i].name.toLowerCase().replace(/\s+/g, '')}.com`,
+                address: 'TP. Hồ Chí Minh, Việt Nam',
+                website: `www.designer${i + 1}.com`,
                 userType: 'designer',
                 status: 'active',
                 bio: designerNames[i].bio,

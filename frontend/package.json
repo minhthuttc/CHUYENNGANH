@@ -1,0 +1,12 @@
+{
+  "name": "designhub-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for DesignHub - Graphic Design Collaboration Platform",
+  "scripts": {
+    "start": "npx serve -s . -l 5000",
+    "dev": "npx live-server --port=5000"
+  },
+  "keywords": ["design", "collaboration", "frontend"],
+  "author": "NguyenVoMinhThu_110122174",
+  "license": "ISC"
+}
