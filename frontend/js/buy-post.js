@@ -61,15 +61,6 @@ function updatePriceDisplay(price) {
 }
 
 function setupPaymentForm() {
-    const paymentMethods = document.querySelectorAll('input[name="paymentMethod"]');
-    const cardInfo = document.getElementById('cardInfo');
-
-    paymentMethods.forEach(method => {
-        method.addEventListener('change', function() {
-            cardInfo.style.display = this.value === 'credit_card' ? 'block' : 'none';
-        });
-    });
-
     document.getElementById('paymentForm').addEventListener('submit', handlePayment);
 }
 
@@ -165,7 +156,7 @@ function getCategoryName(category) {
 }
 
 function getPaymentMethodName(method) {
-    const names = { 'momo': 'Ví MoMo', 'zalopay': 'ZaloPay', 'bank_transfer': 'Chuyển khoản', 'credit_card': 'Thẻ tín dụng' };
+    const names = { 'momo': 'Ví MoMo', 'zalopay': 'ZaloPay', 'bank_transfer': 'Chuyển khoản' };
     return names[method] || method;
 }
 

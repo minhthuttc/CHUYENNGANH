@@ -74,34 +74,30 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Lấy tools đã chọn
-        const tools = Array.from(document.querySelectorAll('input[name="tools"]:checked'))
-            .map(cb => cb.value);
-
         // Lấy tags
-        const tagsInput = document.getElementById('postTags').value;
+        const tagsEl = document.getElementById('postTags');
+        const tagsInput = tagsEl ? tagsEl.value : '';
         const tags = tagsInput ? tagsInput.split(',').map(t => t.trim()) : [];
 
-        const postData = {
-            title: document.getElementById('postTitle').value,
-            category: document.getElementById('postCategory').value,
-            description: document.getElementById('postDescription').value,
-            tags: tags,
-            link: document.getElementById('postLink').value,
-            clientName: document.getElementById('clientName').value,
-            completionTime: document.getElementById('completionTime').value,
-            tools: tools,
-            images: selectedImages.map(img => img.dataUrl) // Trong thực tế cần upload lên server
-        };
+        const title = document.getElementById('postTitle').value;
+        const category = document.getElementById('postCategory').value;
+        const description = document.getElementById('postDescription').value;
 
+        // Validate
+        if (!title || !category || !description) {
+            alert('Vui lòng điền đầy đủ thông tin bắt buộc!');
+            return;
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]');
+        
         try {
             // Hiển thị loading
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = '⏳ Đang đăng...';
+            const originalText = submitBtn.innerHTML;
+            submitBtn.innerHTML = '⏳ Đang đăng...';
             submitBtn.disabled = true;
 
-            // Gọi API thực sự
+            // Gọi API
             const response = await fetch('http://localhost:3000/api/posts', {
                 method: 'POST',
                 headers: {
@@ -109,11 +105,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify({
-                    title: postData.title,
-                    description: postData.description,
-                    category: postData.category,
+                    title: title,
+                    description: description,
+                    category: category,
                     imageUrl: selectedImages.length > 0 ? selectedImages[0].dataUrl : 'https://via.placeholder.com/400x300',
-                    tags: postData.tags
+                    tags: tags
                 })
             });
 
@@ -128,9 +124,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } catch (error) {
             console.error('Lỗi:', error);
-            alert('❌ Có lỗi xảy ra. Vui lòng thử lại!');
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
+            alert('❌ Lỗi: ' + error.message);
+            if (submitBtn) {
+                submitBtn.innerHTML = '✅ Đăng Bài';
+                submitBtn.disabled = false;
+            }
         }
     });
 });
@@ -138,13 +136,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Lưu nháp
 function saveDraft() {
     const draftData = {
-        title: document.getElementById('postTitle').value,
-        category: document.getElementById('postCategory').value,
-        description: document.getElementById('postDescription').value,
-        tags: document.getElementById('postTags').value,
-        link: document.getElementById('postLink').value,
-        clientName: document.getElementById('clientName').value,
-        completionTime: document.getElementById('completionTime').value
+        title: document.getElementById('postTitle')?.value || '',
+        category: document.getElementById('postCategory')?.value || '',
+        description: document.getElementById('postDescription')?.value || '',
+        tags: document.getElementById('postTags')?.value || ''
     };
 
     localStorage.setItem('postDraft', JSON.stringify(draftData));
@@ -189,12 +184,14 @@ window.addEventListener('load', function() {
     const draft = localStorage.getItem('postDraft');
     if (draft && confirm('Bạn có muốn tiếp tục bài viết đã lưu?')) {
         const data = JSON.parse(draft);
-        document.getElementById('postTitle').value = data.title || '';
-        document.getElementById('postCategory').value = data.category || '';
-        document.getElementById('postDescription').value = data.description || '';
-        document.getElementById('postTags').value = data.tags || '';
-        document.getElementById('postLink').value = data.link || '';
-        document.getElementById('clientName').value = data.clientName || '';
-        document.getElementById('completionTime').value = data.completionTime || '';
+        const titleEl = document.getElementById('postTitle');
+        const categoryEl = document.getElementById('postCategory');
+        const descEl = document.getElementById('postDescription');
+        const tagsEl = document.getElementById('postTags');
+        
+        if (titleEl) titleEl.value = data.title || '';
+        if (categoryEl) categoryEl.value = data.category || '';
+        if (descEl) descEl.value = data.description || '';
+        if (tagsEl) tagsEl.value = data.tags || '';
     }
 });

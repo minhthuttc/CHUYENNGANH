@@ -209,8 +209,7 @@ function getPaymentMethodName(method) {
     const methods = {
         'bank_transfer': '🏦 Chuyển khoản ngân hàng',
         'momo': '📱 Ví MoMo',
-        'zalopay': '💰 ZaloPay',
-        'credit_card': '💳 Thẻ tín dụng'
+        'zalopay': '💰 ZaloPay'
     };
     return methods[method] || method;
 }

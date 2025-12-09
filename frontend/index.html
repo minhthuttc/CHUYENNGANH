@@ -5,13 +5,99 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hợp Tác Thiết Kế Đồ Họa - Trang Chủ</title>
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        /* Hero Section Enhanced */
+        .hero-enhanced {
+            background: linear-gradient(135deg, var(--light-brown) 0%, #fff9f0 50%, var(--white) 100%);
+            padding: 5rem 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero-enhanced::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(139, 111, 71, 0.05) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, 30px) rotate(180deg); }
+        }
+        
+        .hero-enhanced h1 {
+            font-size: 3.5rem;
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        .hero-enhanced .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-gray);
+            margin-bottom: 2.5rem;
+            max-width: 600px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .hero-buttons .btn {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-enhanced h1 {
+                font-size: 2.2rem;
+            }
+            
+            .hero-enhanced .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
             <a href="index.html" class="logo">🎨 DesignHub</a>
             <ul class="nav-links">
-                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="index.html" class="active">Trang Chủ</a></li>
                 <li><a href="projects.html">Dự Án</a></li>
                 <li><a href="designers.html">Nhà Thiết Kế</a></li>
                 <li><a href="portfolio.html">Bài Đăng</a></li>
@@ -22,42 +108,17 @@
     </header>
 
     <main>
-        <section class="hero">
-            <h1>Nền Tảng Hợp Tác Thiết Kế Đồ Họa</h1>
-            <p>Kết nối nhà thiết kế và khách hàng - Cộng tác hiệu quả - Sáng tạo không giới hạn</p>
-            <a href="register.html" class="btn btn-primary">Bắt Đầu Ngay</a>
-            <a href="projects.html" class="btn btn-secondary">Khám Phá Dự Án</a>
+        <!-- Hero Section -->
+        <section class="hero-enhanced">
+            <h1>🎨 Nền Tảng Hợp Tác<br>Thiết Kế Đồ Họa</h1>
+            <p class="subtitle">Kết nối nhà thiết kế tài năng với khách hàng - Cộng tác hiệu quả - Sáng tạo không giới hạn</p>
+            <div class="hero-buttons">
+                <a href="register.html" class="btn btn-primary">🚀 Bắt Đầu Ngay</a>
+                <a href="projects.html" class="btn btn-secondary">📂 Khám Phá Dự Án</a>
+            </div>
         </section>
 
-        <div class="container">
-            <h2 style="text-align: center; margin: 3rem 0 2rem;">Dự Án Nổi Bật</h2>
-            <div class="card-grid">
-                <div class="card">
-                    <h3>Thiết Kế Logo Công Ty</h3>
-                    <p><strong>Khách hàng:</strong> ABC Corporation</p>
-                    <p><strong>Ngân sách:</strong> 5.000.000 VNĐ</p>
-                    <span class="badge badge-success">Đang tuyển</span>
-                    <br><br>
-                    <a href="project-detail.html" class="btn btn-primary">Xem Chi Tiết</a>
-                </div>
-                <div class="card">
-                    <h3>Thiết Kế UI/UX App Mobile</h3>
-                    <p><strong>Khách hàng:</strong> Tech Startup</p>
-                    <p><strong>Ngân sách:</strong> 15.000.000 VNĐ</p>
-                    <span class="badge badge-warning">Đang thực hiện</span>
-                    <br><br>
-                    <a href="project-detail.html" class="btn btn-primary">Xem Chi Tiết</a>
-                </div>
-                <div class="card">
-                    <h3>Thiết Kế Brochure Sản Phẩm</h3>
-                    <p><strong>Khách hàng:</strong> XYZ Company</p>
-                    <p><strong>Ngân sách:</strong> 3.000.000 VNĐ</p>
-                    <span class="badge badge-success">Đang tuyển</span>
-                    <br><br>
-                    <a href="project-detail.html" class="btn btn-primary">Xem Chi Tiết</a>
-                </div>
-            </div>
-        </div>
+
     </main>
 
     <footer>
