@@ -60,16 +60,24 @@ document.addEventListener('DOMContentLoaded', function() {
                     ${truncateText(post.description, 100)}
                 </p>
                 <div style="display: flex; align-items: center; gap: 1rem; margin: 1rem 0; color: var(--text-gray); font-size: 0.9rem;">
-                    <span>👤 ${post.author?.fullName || 'Anonymous'}</span>
+                    <span>${post.author?.fullName || 'Anonymous'}</span>
                     <span>❤️ ${post.likesCount || 0}</span>
                     <span>👁️ ${post.views || 0}</span>
                 </div>
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                     ${(post.tags || []).slice(0, 3).map(tag => `<span class="badge badge-secondary">${tag}</span>`).join('')}
                 </div>
-                <button onclick="viewPost('${post._id}')" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-                    Xem Chi Tiết
-                </button>
+                <p style="font-size: 1.2rem; color: var(--dark-brown); font-weight: bold; margin: 0.5rem 0;">
+                    ${formatCurrency(post.price || 500000)}
+                </p>
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                    <button onclick="viewPost('${post._id}')" class="btn btn-secondary" style="flex: 1;">
+                        Xem Chi Tiết
+                    </button>
+                    <button onclick="buyPost('${post._id}')" class="btn btn-primary" style="flex: 1;">
+                        Mua Ngay
+                    </button>
+                </div>
             </div>
         `).join('');
     }
@@ -92,6 +100,15 @@ document.addEventListener('DOMContentLoaded', function() {
     window.viewPost = function(postId) {
         window.location.href = `post-detail.html?id=${postId}`;
     };
+
+    // Buy post
+    window.buyPost = function(postId) {
+        window.location.href = `buy-post.html?id=${postId}`;
+    };
+
+    function formatCurrency(amount) {
+        return new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(amount);
+    }
 
     // Event listeners
     filterCategory.addEventListener('change', loadPosts);

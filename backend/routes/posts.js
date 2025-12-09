@@ -70,20 +70,35 @@ router.post('/', auth, async (req, res) => {
     try {
         const { title, description, category, imageUrl, tags } = req.body;
 
+        console.log('📝 Tạo bài đăng mới:', { title, category, author: req.user.userId });
+
+        // Validate
+        if (!title || !description || !category) {
+            return res.status(400).json({ message: 'Vui lòng điền đầy đủ thông tin!' });
+        }
+
+        // Nếu imageUrl là base64 quá dài, dùng placeholder
+        let finalImageUrl = imageUrl;
+        if (imageUrl && imageUrl.length > 500000) {
+            console.log('⚠️ Ảnh quá lớn, dùng placeholder');
+            finalImageUrl = 'https://via.placeholder.com/400x300';
+        }
+
         const post = await Post.create({
             title,
             description,
             category,
-            imageUrl,
-            tags,
+            imageUrl: finalImageUrl || 'https://via.placeholder.com/400x300',
+            tags: tags || [],
             author: req.user.userId,
             status: 'published'
         });
 
-        res.status(201).json(post);
+        console.log('✅ Đăng bài thành công:', post._id);
+        res.status(201).json({ message: 'Đăng bài thành công!', post });
     } catch (error) {
-        console.error('Lỗi tạo bài đăng:', error);
-        res.status(500).json({ message: 'Lỗi server' });
+        console.error('❌ Lỗi tạo bài đăng:', error);
+        res.status(500).json({ message: 'Lỗi server: ' + error.message });
     }
 });
 
@@ -100,10 +115,8 @@ router.post('/:id/like', auth, async (req, res) => {
         const likeIndex = post.likes.indexOf(userId);
 
         if (likeIndex > -1) {
-            // Unlike
             post.likes.splice(likeIndex, 1);
         } else {
-            // Like
             post.likes.push(userId);
         }
 
@@ -116,6 +129,48 @@ router.post('/:id/like', auth, async (req, res) => {
     } catch (error) {
         console.error('Lỗi like bài đăng:', error);
         res.status(500).json({ message: 'Lỗi server' });
+    }
+});
+
+// Mua thiết kế (thanh toán ảo)
+router.post('/:id/purchase', auth, async (req, res) => {
+    try {
+        const { amount, paymentMethod, note } = req.body;
+        const post = await Post.findById(req.params.id).populate('author', 'fullName');
+
+        if (!post) {
+            return res.status(404).json({ message: 'Không tìm thấy bài đăng' });
+        }
+
+        // Tạo transaction ID
+        const transactionId = 'TXN' + Date.now() + Math.floor(Math.random() * 1000);
+
+        // Lưu thông tin mua hàng
+        post.purchases.push({
+            buyer: req.user.userId,
+            amount: amount,
+            paymentMethod: paymentMethod,
+            purchasedAt: new Date()
+        });
+        await post.save();
+
+        console.log(`✅ Thanh toán thành công: ${transactionId}`);
+        console.log(`   Thiết kế: ${post.title}`);
+        console.log(`   Số tiền: ${amount.toLocaleString('vi-VN')} VNĐ`);
+        console.log(`   Phương thức: ${paymentMethod}`);
+
+        res.json({
+            message: 'Thanh toán thành công!',
+            transactionId: transactionId,
+            postId: post._id,
+            postTitle: post.title,
+            amount: amount,
+            paymentMethod: paymentMethod,
+            seller: post.author.fullName
+        });
+    } catch (error) {
+        console.error('❌ Lỗi thanh toán:', error);
+        res.status(500).json({ message: 'Lỗi xử lý thanh toán' });
     }
 });
 

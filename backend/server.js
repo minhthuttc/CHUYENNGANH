@@ -8,8 +8,9 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
-// Serve frontend static files (optional - nếu muốn serve từ backend)
-// app.use(express.static('../frontend'));
+
+// Serve ảnh từ thư mục anh - truy cập qua http://localhost:3000/images/ten-anh.jpg
+app.use('/images', express.static('anh'));
 
 // Import init admin
 const initDefaultAdmin = require('./init-admin');

@@ -101,21 +101,27 @@ document.addEventListener('DOMContentLoaded', function() {
             submitBtn.textContent = '⏳ Đang đăng...';
             submitBtn.disabled = true;
 
-            // Gọi API (giả lập)
-            await new Promise(resolve => setTimeout(resolve, 1500));
-
-            // Lưu vào localStorage tạm (trong thực tế gọi API)
-            const posts = JSON.parse(localStorage.getItem('posts') || '[]');
-            posts.unshift({
-                ...postData,
-                id: Date.now(),
-                author: JSON.parse(localStorage.getItem('user') || '{}'),
-                createdAt: new Date().toISOString(),
-                likes: 0,
-                comments: 0,
-                views: 0
+            // Gọi API thực sự
+            const response = await fetch('http://localhost:3000/api/posts', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    title: postData.title,
+                    description: postData.description,
+                    category: postData.category,
+                    imageUrl: selectedImages.length > 0 ? selectedImages[0].dataUrl : 'https://via.placeholder.com/400x300',
+                    tags: postData.tags
+                })
             });
-            localStorage.setItem('posts', JSON.stringify(posts));
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Đăng bài thất bại');
+            }
 
             alert('✅ Đăng bài thành công!');
             window.location.href = 'portfolio.html';

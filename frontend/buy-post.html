@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mua Thiết Kế - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="portfolio.html">Bài Đăng</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Mua Thiết Kế</h1>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+            <!-- Thông tin sản phẩm -->
+            <div class="card">
+                <h2>Thông tin thiết kế</h2>
+                <div id="postInfo">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <p>Đang tải...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form thanh toán -->
+            <div class="card">
+                <h2>Thanh toán</h2>
+                <form id="paymentForm">
+                    <div class="form-group">
+                        <label>Phương thức thanh toán</label>
+                        <div style="display: flex; flex-direction: column; gap: 1rem; margin-top: 0.5rem;">
+                            <label class="payment-method-option">
+                                <input type="radio" name="paymentMethod" value="momo" checked>
+                                <span>📱 Ví MoMo</span>
+                            </label>
+                            <label class="payment-method-option">
+                                <input type="radio" name="paymentMethod" value="zalopay">
+                                <span>💳 ZaloPay</span>
+                            </label>
+                            <label class="payment-method-option">
+                                <input type="radio" name="paymentMethod" value="bank_transfer">
+                                <span>🏦 Chuyển khoản ngân hàng</span>
+                            </label>
+                            <label class="payment-method-option">
+                                <input type="radio" name="paymentMethod" value="credit_card">
+                                <span>💳 Thẻ tín dụng/Ghi nợ</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Thông tin thẻ (ẩn mặc định) -->
+                    <div id="cardInfo" style="display: none;">
+                        <div class="form-group">
+                            <label>Số thẻ</label>
+                            <input type="text" id="cardNumber" placeholder="1234 5678 9012 3456" maxlength="19">
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div class="form-group">
+                                <label>Ngày hết hạn</label>
+                                <input type="text" id="cardExpiry" placeholder="MM/YY" maxlength="5">
+                            </div>
+                            <div class="form-group">
+                                <label>CVV</label>
+                                <input type="text" id="cardCvv" placeholder="123" maxlength="3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ghi chú (tùy chọn)</label>
+                        <textarea id="note" rows="2" placeholder="Ghi chú cho người bán..."></textarea>
+                    </div>
+
+                    <div style="background: var(--light-brown); padding: 1rem; border-radius: 8px; margin: 1rem 0;">
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Giá thiết kế:</span>
+                            <span id="priceDisplay">0 VNĐ</span>
+                        </div>
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                            <span>Phí dịch vụ (5%):</span>
+                            <span id="feeDisplay">0 VNĐ</span>
+                        </div>
+                        <hr style="margin: 0.5rem 0;">
+                        <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1.2rem;">
+                            <span>Tổng cộng:</span>
+                            <span id="totalDisplay" style="color: var(--dark-brown);">0 VNĐ</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        ✅ Thanh toán ngay
+                    </button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+        <p>NguyenVoMinhThu_110122174</p>
+    </footer>
+
+    <script src="js/buy-post.js"></script>
+</body>
+</html>

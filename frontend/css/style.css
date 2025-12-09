@@ -209,16 +209,23 @@ nav {
 }
 
 .stat-card {
-    background: linear-gradient(135deg, var(--primary-brown) 0%, var(--dark-brown) 100%);
-    color: var(--white);
+    background: linear-gradient(135deg, var(--primary-brown) 0%, var(--dark-brown) 100%) !important;
+    color: var(--white) !important;
     padding: 2rem;
     border-radius: 10px;
     text-align: center;
+    border: none !important;
 }
 
 .stat-card h2 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
+    color: var(--white) !important;
+}
+
+.stat-card p {
+    color: var(--white) !important;
+    opacity: 0.9;
 }
 
 /* Table */
@@ -396,8 +403,8 @@ footer {
     }
 }
 
-/* Payment Stats */
-.stat-card {
+/* Payment Stats - dùng class riêng để không đè lên dashboard stat-card */
+.payment-stat-card {
     background: white;
     border: 1px solid var(--border-color);
     padding: 1rem 1.5rem;

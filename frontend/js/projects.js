@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load dự án từ API
     async function loadProjects() {
         try {
-            const response = await fetch('/api/projects');
+            const response = await fetch('http://localhost:3000/api/projects');
             const data = await response.json();
             
             if (data.success) {
@@ -143,7 +143,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (confirm('Bạn có chắc muốn ứng tuyển dự án này?')) {
             try {
-                const response = await fetch(`/api/projects/${projectId}/apply`, {
+                const response = await fetch(`http://localhost:3000/api/projects/${projectId}/apply`, {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${token}`,
