@@ -43,10 +43,18 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        portfolioGrid.innerHTML = posts.map(post => `
+        portfolioGrid.innerHTML = posts.map(post => {
+            // Kiểm tra ảnh hợp lệ
+            let imageUrl = post.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image';
+            if (imageUrl && !imageUrl.startsWith('http') && !imageUrl.startsWith('data:image')) {
+                imageUrl = 'https://via.placeholder.com/400x300?text=No+Image';
+            }
+            
+            return `
             <div class="card hover-lift">
                 <div style="position: relative;">
-                    <img src="${post.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image'}" 
+                    <img src="${imageUrl}" 
+                         onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'"
                          style="width: 100%; height: 200px; object-fit: cover; border-radius: 8px;">
                     <span class="badge badge-info" style="position: absolute; top: 10px; left: 10px;">
                         ${getCategoryName(post.category)}
@@ -79,13 +87,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     </button>
                 </div>
             </div>
-        `).join('');
+            `;
+        }).join('');
     }
 
     function getCategoryName(category) {
         const names = {
             'logo': '🏷️ Logo Design',
-            'uiux': '📱 UI/UX Design',
+            'uiux': '� UI/UX Desi gn',
             'print': '🖨️ Thiết kế Poster'
         };
         return names[category] || category;

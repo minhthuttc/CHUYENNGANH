@@ -1,3 +1,34 @@
+// Hàm nén ảnh
+function compressImage(file, maxWidth = 800, quality = 0.7) {
+    return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+                
+                if (width > maxWidth) {
+                    height = (height * maxWidth) / width;
+                    width = maxWidth;
+                }
+                
+                canvas.width = width;
+                canvas.height = height;
+                
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+                
+                const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+                resolve(compressedDataUrl);
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+}
+
 // Xử lý đăng bài
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('createPostForm');
@@ -7,7 +38,7 @@ document.addEventListener('DOMContentLoaded', function() {
     let selectedImages = [];
 
     // Preview ảnh khi chọn
-    imageInput.addEventListener('change', function(e) {
+    imageInput.addEventListener('change', async function(e) {
         const files = Array.from(e.target.files);
         
         if (files.length > 5) {
@@ -16,30 +47,35 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         selectedImages = [];
-        imagePreview.innerHTML = '';
+        imagePreview.innerHTML = '<p>Đang xử lý ảnh...</p>';
 
-        files.forEach((file, index) => {
-            if (file.size > 5 * 1024 * 1024) {
-                alert(`File ${file.name} quá lớn! Tối đa 5MB`);
-                return;
+        for (let i = 0; i < files.length; i++) {
+            const file = files[i];
+            
+            if (file.size > 10 * 1024 * 1024) {
+                alert(`File ${file.name} quá lớn! Tối đa 10MB`);
+                continue;
             }
 
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                selectedImages.push({
-                    file: file,
-                    dataUrl: e.target.result
-                });
-
-                const imgContainer = document.createElement('div');
-                imgContainer.style.position = 'relative';
-                imgContainer.innerHTML = `
-                    <img src="${e.target.result}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;">
-                    <button type="button" onclick="removeImage(${index})" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">✕</button>
-                `;
-                imagePreview.appendChild(imgContainer);
-            };
-            reader.readAsDataURL(file);
+            // Nén ảnh
+            const compressedDataUrl = await compressImage(file, 800, 0.7);
+            
+            selectedImages.push({
+                file: file,
+                dataUrl: compressedDataUrl
+            });
+        }
+        
+        // Hiển thị preview
+        imagePreview.innerHTML = '';
+        selectedImages.forEach((img, index) => {
+            const imgContainer = document.createElement('div');
+            imgContainer.style.position = 'relative';
+            imgContainer.innerHTML = `
+                <img src="${img.dataUrl}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;">
+                <button type="button" onclick="removeImage(${index})" style="position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 25px; height: 25px; cursor: pointer;">✕</button>
+            `;
+            imagePreview.appendChild(imgContainer);
         });
     });
 
