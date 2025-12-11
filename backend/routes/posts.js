@@ -132,6 +132,30 @@ router.post('/:id/like', auth, async (req, res) => {
     }
 });
 
+// Xóa bài đăng
+router.delete('/:id', auth, async (req, res) => {
+    try {
+        const post = await Post.findById(req.params.id);
+        
+        if (!post) {
+            return res.status(404).json({ message: 'Không tìm thấy bài đăng' });
+        }
+
+        // Kiểm tra quyền xóa (chỉ chủ bài đăng hoặc admin)
+        if (post.author.toString() !== req.user.userId && req.user.role !== 'admin') {
+            return res.status(403).json({ message: 'Bạn không có quyền xóa bài đăng này' });
+        }
+
+        await Post.findByIdAndDelete(req.params.id);
+        
+        console.log('🗑️ Đã xóa bài đăng:', req.params.id);
+        res.json({ message: 'Xóa bài đăng thành công!' });
+    } catch (error) {
+        console.error('❌ Lỗi xóa bài đăng:', error);
+        res.status(500).json({ message: 'Lỗi server' });
+    }
+});
+
 // Mua thiết kế (thanh toán ảo)
 router.post('/:id/purchase', auth, async (req, res) => {
     try {

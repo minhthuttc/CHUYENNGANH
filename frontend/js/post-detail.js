@@ -1,7 +1,11 @@
+let currentPostId = null;
+let currentPost = null;
+
 // Load chi tiết bài đăng
 document.addEventListener('DOMContentLoaded', async function() {
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get('id');
+    currentPostId = postId;
     
     if (!postId) {
         alert('Không tìm thấy bài đăng');
@@ -17,13 +21,61 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
         
         const post = await response.json();
+        currentPost = post;
         displayPost(post);
+        checkDeletePermission(post);
     } catch (error) {
         console.error('Lỗi:', error);
         alert('Không thể tải bài đăng');
         window.location.href = 'portfolio.html';
     }
 });
+
+// Kiểm tra quyền xóa bài
+function checkDeletePermission(post) {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const deleteBtn = document.getElementById('deletePostBtn');
+    
+    // Hiển thị nút xóa nếu là chủ bài đăng hoặc admin
+    if (deleteBtn && user && (user._id === post.author?._id || user.role === 'admin')) {
+        deleteBtn.style.display = 'inline-block';
+    }
+}
+
+// Xóa bài đăng
+async function deletePost() {
+    if (!currentPostId) return;
+    
+    if (!confirm('Bạn có chắc chắn muốn xóa bài đăng này?')) {
+        return;
+    }
+    
+    const token = localStorage.getItem('token');
+    if (!token) {
+        alert('Vui lòng đăng nhập!');
+        return;
+    }
+    
+    try {
+        const response = await fetch(`http://localhost:3000/api/posts/${currentPostId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
+        
+        if (!response.ok) {
+            const data = await response.json();
+            throw new Error(data.message || 'Không thể xóa bài đăng');
+        }
+        
+        alert('✅ Đã xóa bài đăng thành công!');
+        window.location.href = 'portfolio.html';
+    } catch (error) {
+        console.error('Lỗi:', error);
+        alert('❌ Lỗi: ' + error.message);
+    }
+}
 
 function displayPost(post) {
     // Update image

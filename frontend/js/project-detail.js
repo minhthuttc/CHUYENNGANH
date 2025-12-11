@@ -27,29 +27,51 @@ async function loadUserInfo() {
 }
 
 async function loadProjectDetail() {
-    const projectId = new URLSearchParams(window.location.search).get('id');
+    let projectId = new URLSearchParams(window.location.search).get('id');
     
+    // Nếu không có ID, load dự án đầu tiên từ database
     if (!projectId) {
-        showLoading(false);
-        const container = document.querySelector('.container');
-        container.innerHTML = `
-            <div class="card" style="text-align: center; padding: 3rem; margin-top: 2rem;">
-                <div style="font-size: 3rem; margin-bottom: 1rem;">⚠️</div>
-                <h2>Không tìm thấy ID dự án</h2>
-                <p style="color: var(--text-gray); margin: 1rem 0;">
-                    Vui lòng chọn dự án từ danh sách
-                </p>
-                <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
-                    <button onclick="window.location.href='my-projects.html'" class="btn btn-primary">
-                        📁 Xem Dự Án Của Tôi
-                    </button>
-                    <button onclick="window.location.href='dashboard.html'" class="btn btn-secondary">
-                        🏠 Về Dashboard
-                    </button>
+        try {
+            const response = await fetch(`${API_URL}/projects`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            
+            if (response.ok) {
+                const projects = await response.json();
+                if (projects && projects.length > 0) {
+                    projectId = projects[0]._id;
+                    // Cập nhật URL để có ID
+                    window.history.replaceState({}, '', `project-detail.html?id=${projectId}`);
+                }
+            }
+        } catch (error) {
+            console.error('Error loading projects:', error);
+        }
+        
+        if (!projectId) {
+            showLoading(false);
+            const container = document.querySelector('.container');
+            container.innerHTML = `
+                <div class="card" style="text-align: center; padding: 3rem; margin-top: 2rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                    <h2>Chưa có dự án nào</h2>
+                    <p style="color: var(--text-gray); margin: 1rem 0;">
+                        Hãy tạo dự án mới hoặc xem danh sách dự án
+                    </p>
+                    <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                        <button onclick="window.location.href='projects.html'" class="btn btn-primary">
+                            📁 Xem Danh Sách Dự Án
+                        </button>
+                        <button onclick="window.location.href='dashboard.html'" class="btn btn-secondary">
+                            🏠 Về Dashboard
+                        </button>
+                    </div>
                 </div>
-            </div>
-        `;
-        return;
+            `;
+            return;
+        }
     }
 
     try {
