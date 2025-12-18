@@ -142,6 +142,23 @@ router.put('/transactions/:id/status', checkAdmin, async (req, res) => {
   }
 });
 
+// ===== QUẢN LÝ BÀI ĐĂNG =====
+
+// Xóa bài đăng
+router.delete('/posts/:id', checkAdmin, async (req, res) => {
+  try {
+    const Post = require('../models/Post');
+    const post = await Post.findByIdAndDelete(req.params.id);
+    if (!post) {
+      return res.status(404).json({ message: 'Không tìm thấy bài đăng!' });
+    }
+
+    res.json({ message: 'Đã xóa bài đăng thành công!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi server', error: error.message });
+  }
+});
+
 // ===== BÁO CÁO VÀ THỐNG KÊ =====
 
 // Thống kê tổng quan

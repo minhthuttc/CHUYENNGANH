@@ -88,6 +88,7 @@ async function loadProjects() {
                 <td>${formatCurrency(project.budget)}</td>
                 <td>
                     <button class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;" onclick="viewProject('${project._id}')">Xem</button>
+                    <button class="btn" style="padding: 0.4rem 1rem; font-size: 0.9rem; background: #dc3545; color: white;" onclick="deleteProject('${project._id}')">Xóa</button>
                 </td>
             `;
             tbody.appendChild(row);
@@ -222,6 +223,98 @@ function viewProject(projectId) {
     window.location.href = `project-detail.html?id=${projectId}`;
 }
 
+// Delete project
+async function deleteProject(projectId) {
+    if (!confirm('Bạn có chắc muốn xóa dự án này? Hành động này không thể hoàn tác!')) return;
+    
+    try {
+        const response = await fetch(`${API_URL}/admin/projects/${projectId}`, {
+            method: 'DELETE'
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            showNotification('Đã xóa dự án thành công!', 'success');
+            loadProjects();
+            loadStatistics();
+        } else {
+            showNotification(data.message || 'Lỗi xóa dự án!', 'error');
+        }
+    } catch (error) {
+        showNotification('Lỗi kết nối server!', 'error');
+        console.error('Error:', error);
+    }
+}
+
+// Load posts
+async function loadPosts() {
+    try {
+        const response = await fetch(`${API_URL}/posts`);
+        const posts = await response.json();
+        
+        const tbody = document.getElementById('postsTableBody');
+        tbody.innerHTML = '';
+        
+        if (posts.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" style="text-align: center;">Chưa có bài đăng nào</td></tr>';
+            return;
+        }
+        
+        const categoryText = {
+            'logo': 'Logo Design',
+            'uiux': 'UI/UX Design',
+            'print': 'Thiết kế Poster'
+        };
+        
+        posts.forEach(post => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>#${post._id.slice(-6)}</td>
+                <td>${post.title}</td>
+                <td>${post.author?.fullName || 'N/A'}</td>
+                <td><span class="badge badge-info">${categoryText[post.category] || post.category}</span></td>
+                <td>${new Date(post.createdAt).toLocaleDateString('vi-VN')}</td>
+                <td>
+                    <button class="btn btn-primary" style="padding: 0.4rem 1rem; font-size: 0.9rem;" onclick="viewPost('${post._id}')">Xem</button>
+                    <button class="btn" style="padding: 0.4rem 1rem; font-size: 0.9rem; background: #dc3545; color: white;" onclick="deletePost('${post._id}')">Xóa</button>
+                </td>
+            `;
+            tbody.appendChild(row);
+        });
+    } catch (error) {
+        console.error('Error loading posts:', error);
+    }
+}
+
+// View post details
+function viewPost(postId) {
+    window.location.href = `post-detail.html?id=${postId}`;
+}
+
+// Delete post
+async function deletePost(postId) {
+    if (!confirm('Bạn có chắc muốn xóa bài đăng này? Hành động này không thể hoàn tác!')) return;
+    
+    try {
+        const response = await fetch(`${API_URL}/admin/posts/${postId}`, {
+            method: 'DELETE'
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+            showNotification('Đã xóa bài đăng thành công!', 'success');
+            loadPosts();
+        } else {
+            showNotification(data.message || 'Lỗi xóa bài đăng!', 'error');
+        }
+    } catch (error) {
+        showNotification('Lỗi kết nối server!', 'error');
+        console.error('Error:', error);
+    }
+}
+
 // Format currency
 function formatCurrency(amount) {
     return new Intl.NumberFormat('vi-VN', {
@@ -259,6 +352,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadStatistics();
     loadUsers();
     loadProjects();
+    loadPosts();
     loadTransactions();
     loadTopDesigners();
     

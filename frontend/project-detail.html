@@ -72,19 +72,14 @@
                     
                     <div style="margin-top: 2rem;">
                         <h4>💬 Tin Nhắn & Phản Hồi</h4>
-                        <div style="background: var(--white); border: 1px solid var(--border-color); padding: 1rem; border-radius: 5px; margin-top: 1rem;">
-                            <p><strong>Khách hàng:</strong> Chào bạn, tôi muốn thêm một số chi tiết về màu sắc...</p>
-                            <small style="color: var(--text-gray);">2 giờ trước</small>
-                        </div>
-                        <div style="background: var(--light-brown); padding: 1rem; border-radius: 5px; margin-top: 1rem;">
-                            <p><strong>Bạn:</strong> Dạ, tôi đã hiểu yêu cầu. Tôi sẽ gửi concept đầu tiên trong 2 ngày...</p>
-                            <small style="color: var(--text-gray);">1 giờ trước</small>
+                        <div id="messageContainer">
+                            <!-- Tin nhắn sẽ được hiển thị ở đây -->
                         </div>
                     </div>
 
                     <div style="margin-top: 2rem;">
-                        <textarea placeholder="Nhập tin nhắn..." style="width: 100%; padding: 1rem; border: 1px solid var(--border-color); border-radius: 5px; min-height: 100px;"></textarea>
-                        <button class="btn btn-primary" style="margin-top: 1rem;">Gửi Tin Nhắn</button>
+                        <textarea id="messageInput" placeholder="Nhập tin nhắn..." style="width: 100%; padding: 1rem; border: 1px solid var(--border-color); border-radius: 5px; min-height: 100px;"></textarea>
+                        <button id="sendMessageBtn" class="btn btn-primary" style="margin-top: 1rem;">Gửi Tin Nhắn</button>
                     </div>
                 </div>
             </div>
@@ -136,5 +131,6 @@
     </footer>
 
     <script src="js/project-detail.js"></script>
+    <script src="js/nav-auth.js"></script>
 </body>
 </html>

@@ -144,7 +144,6 @@ function showPaymentSuccess(data) {
             <p style="color: var(--text-gray);">File thiết kế sẽ được gửi đến email của bạn trong vòng 24 giờ.</p>
             <div style="margin-top: 2rem;">
                 <a href="portfolio.html" class="btn btn-primary">Tiếp tục mua sắm</a>
-                <a href="payment-history.html" class="btn btn-secondary">Xem lịch sử</a>
             </div>
         </div>
     `;

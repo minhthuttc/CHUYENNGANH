@@ -43,6 +43,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Kiểm tra user có phải admin không
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const isAdmin = user.userType === 'admin' || user.role === 'admin';
+
         portfolioGrid.innerHTML = posts.map(post => {
             // Kiểm tra ảnh hợp lệ
             let imageUrl = post.imageUrl || 'https://via.placeholder.com/400x300?text=No+Image';
@@ -78,13 +82,14 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p style="font-size: 1.2rem; color: var(--dark-brown); font-weight: bold; margin: 0.5rem 0;">
                     ${formatCurrency(post.price || 500000)}
                 </p>
-                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
                     <button onclick="viewPost('${post._id}')" class="btn btn-secondary" style="flex: 1;">
                         Xem Chi Tiết
                     </button>
                     <button onclick="buyPost('${post._id}')" class="btn btn-primary" style="flex: 1;">
                         Mua Ngay
                     </button>
+                    ${isAdmin ? `<button onclick="deletePost('${post._id}')" class="btn" style="background: #dc3545; color: white; width: 100%; margin-top: 0.5rem;">🗑️ Xóa Bài</button>` : ''}
                 </div>
             </div>
             `;
@@ -113,6 +118,29 @@ document.addEventListener('DOMContentLoaded', function() {
     // Buy post
     window.buyPost = function(postId) {
         window.location.href = `buy-post.html?id=${postId}`;
+    };
+
+    // Delete post (admin only)
+    window.deletePost = async function(postId) {
+        if (!confirm('Bạn có chắc muốn xóa bài đăng này? Hành động này không thể hoàn tác!')) return;
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/admin/posts/${postId}`, {
+                method: 'DELETE'
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Đã xóa bài đăng thành công!');
+                loadPosts();
+            } else {
+                alert(data.message || 'Lỗi xóa bài đăng!');
+            }
+        } catch (error) {
+            console.error('Lỗi xóa bài đăng:', error);
+            alert('Có lỗi xảy ra. Vui lòng thử lại!');
+        }
     };
 
     function formatCurrency(amount) {

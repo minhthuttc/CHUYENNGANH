@@ -142,6 +142,21 @@ router.post('/:id/apply', async (req, res) => {
   }
 });
 
+// Xóa project
+router.delete('/:id', async (req, res) => {
+  try {
+    const project = await Project.findByIdAndDelete(req.params.id);
+    
+    if (!project) {
+      return res.status(404).json({ message: 'Không tìm thấy dự án!' });
+    }
+    
+    res.json({ message: 'Đã xóa dự án thành công!' });
+  } catch (error) {
+    res.status(500).json({ message: 'Lỗi server', error: error.message });
+  }
+});
+
 // Tìm kiếm projects
 router.get('/search/filter', async (req, res) => {
   try {

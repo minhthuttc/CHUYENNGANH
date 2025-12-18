@@ -19,6 +19,7 @@
     </header>
 
     <main class="container">
+        <a href="javascript:history.back()" style="display: inline-block; margin-bottom: 1rem; color: var(--primary-brown); text-decoration: none;">← Quay lại</a>
         <h1>Bảng Điều Khiển Quản Trị</h1>
 
         <div class="dashboard-grid">
@@ -79,6 +80,27 @@
                 <tbody id="projectsTableBody">
                     <tr>
                         <td colspan="7" style="text-align: center;">Đang tải dữ liệu...</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h2 style="margin-top: 3rem;">Quản Lý Bài Đăng</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tiêu Đề</th>
+                        <th>Tác Giả</th>
+                        <th>Danh Mục</th>
+                        <th>Ngày Đăng</th>
+                        <th>Hành Động</th>
+                    </tr>
+                </thead>
+                <tbody id="postsTableBody">
+                    <tr>
+                        <td colspan="6" style="text-align: center;">Đang tải dữ liệu...</td>
                     </tr>
                 </tbody>
             </table>
@@ -159,5 +181,6 @@
     </footer>
 
     <script src="js/admin.js"></script>
+    <script src="js/nav-auth.js"></script>
 </body>
 </html>

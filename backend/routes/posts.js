@@ -165,7 +165,7 @@ router.post('/:id/purchase', auth, async (req, res) => {
         // Tạo transaction ID
         const transactionId = 'TXN' + Date.now() + Math.floor(Math.random() * 1000);
 
-        // Lưu thông tin mua hàng
+        // Lưu thông tin mua hàng vào post
         post.purchases.push({
             buyer: req.user.userId,
             amount: amount,
@@ -173,6 +173,20 @@ router.post('/:id/purchase', auth, async (req, res) => {
             purchasedAt: new Date()
         });
         await post.save();
+
+        // Lưu vào Transaction model để hiển thị trong lịch sử
+        const Transaction = require('../models/Transaction');
+        const transaction = new Transaction({
+            transactionId: transactionId,
+            from: req.user.userId,
+            to: post.author._id,
+            amount: amount,
+            paymentMethod: paymentMethod,
+            description: note || `Mua thiết kế: ${post.title}`,
+            status: 'completed',
+            post: post._id
+        });
+        await transaction.save();
 
         console.log(`✅ Thanh toán thành công: ${transactionId}`);
         console.log(`   Thiết kế: ${post.title}`);

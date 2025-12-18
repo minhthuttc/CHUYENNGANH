@@ -109,17 +109,23 @@ router.get('/history', async (req, res) => {
       $or: [{ from: userId }, { to: userId }]
     })
       .populate('project', 'title budget status')
+      .populate('post', 'title price')
       .populate('from', 'fullName email')
       .populate('to', 'fullName email')
       .sort({ createdAt: -1 })
       .limit(50); // Giới hạn 50 giao dịch gần nhất
 
     // Thêm thông tin loại giao dịch (gửi/nhận)
-    const enrichedTransactions = transactions.map(tx => ({
-      ...tx.toObject(),
-      type: tx.from._id.toString() === userId ? 'sent' : 'received'
-    }));
+    const enrichedTransactions = transactions.map(tx => {
+      const txObj = tx.toObject();
+      const fromId = tx.from?._id?.toString() || tx.from?.toString();
+      return {
+        ...txObj,
+        type: fromId === userId ? 'sent' : 'received'
+      };
+    });
 
+    console.log(`📋 Tìm thấy ${enrichedTransactions.length} giao dịch cho user ${userId}`);
     res.json(enrichedTransactions);
   } catch (error) {
     console.error('❌ Lỗi lấy lịch sử:', error);

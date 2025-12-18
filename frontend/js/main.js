@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         localStorage.setItem('user', JSON.stringify(data.user));
                         showNotification('Đăng nhập thành công!', 'success');
                         setTimeout(() => {
-                            window.location.href = 'dashboard.html';
+                            window.location.href = 'my-profile.html';
                         }, 1000);
                     } else {
                         showNotification(data.message || 'Đăng nhập thất bại!', 'error');

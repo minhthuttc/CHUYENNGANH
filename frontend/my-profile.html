@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trang Cá Nhân - DesignHub</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="index.html" class="logo">🎨 DesignHub</a>
+            <ul class="nav-links">
+                <li><a href="index.html">Trang Chủ</a></li>
+                <li><a href="projects.html">Dự Án</a></li>
+                <li><a href="designers.html">Nhà Thiết Kế</a></li>
+                <li><a href="portfolio.html">Bài Đăng</a></li>
+                <li><a href="my-profile.html" class="active">Trang Cá Nhân</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <a href="javascript:history.back()" style="display: inline-block; margin-bottom: 1rem; color: var(--primary-brown); text-decoration: none;">← Quay lại</a>
+        <div id="profileContent" style="max-width: 800px; margin: 0 auto;">
+            <!-- Loading -->
+            <div id="loading" style="text-align: center; padding: 3rem;">
+                <div class="spinner"></div>
+                <p>Đang tải thông tin...</p>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 DesignHub - Nền tảng hợp tác thiết kế đồ họa</p>
+        <p>NguyenVoMinhThu_110122174</p>
+    </footer>
+
+    <script src="js/my-profile.js"></script>
+    <script src="js/nav-auth.js"></script>
+</body>
+</html>

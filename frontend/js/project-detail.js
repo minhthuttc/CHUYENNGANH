@@ -2,11 +2,13 @@
 const API_URL = 'http://localhost:3000/api';
 let currentProject = null;
 let currentUser = null;
+let messages = []; // Lưu trữ tin nhắn
 
 document.addEventListener('DOMContentLoaded', function() {
     checkAuth();
     loadUserInfo();
     loadProjectDetail();
+    setupMessageForm();
 });
 
 function checkAuth() {
@@ -306,6 +308,104 @@ function getStatusClass(status) {
         'cancelled': 'danger'
     };
     return classMap[status] || 'secondary';
+}
+
+// Message functions
+function setupMessageForm() {
+    const sendBtn = document.getElementById('sendMessageBtn');
+    const messageInput = document.getElementById('messageInput');
+    
+    if (sendBtn) {
+        sendBtn.addEventListener('click', sendMessage);
+    }
+    
+    if (messageInput) {
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+    }
+}
+
+function sendMessage() {
+    const messageInput = document.getElementById('messageInput');
+    const messageText = messageInput.value.trim();
+    
+    if (!messageText) {
+        alert('Vui lòng nhập tin nhắn!');
+        return;
+    }
+    
+    // Lấy thông tin người dùng
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userName = user?.fullName || user?.name || 'Bạn';
+    
+    // Tạo tin nhắn mới
+    const newMessage = {
+        id: Date.now(),
+        sender: userName,
+        text: messageText,
+        time: new Date(),
+        isCurrentUser: true
+    };
+    
+    // Thêm vào mảng tin nhắn
+    messages.push(newMessage);
+    
+    // Hiển thị tin nhắn
+    displayMessage(newMessage);
+    
+    // Xóa nội dung textarea
+    messageInput.value = '';
+    messageInput.focus();
+}
+
+function displayMessage(message) {
+    const container = document.getElementById('messageContainer');
+    if (!container) return;
+    
+    const messageDiv = document.createElement('div');
+    messageDiv.style.cssText = message.isCurrentUser 
+        ? 'background: var(--light-brown); padding: 1rem; border-radius: 5px; margin-top: 1rem;'
+        : 'background: var(--white); border: 1px solid var(--border-color); padding: 1rem; border-radius: 5px; margin-top: 1rem;';
+    
+    const timeAgo = getTimeAgo(message.time);
+    
+    messageDiv.innerHTML = `
+        <p><strong>${message.sender}:</strong> ${escapeHtml(message.text)}</p>
+        <small style="color: var(--text-gray);">${timeAgo}</small>
+    `;
+    
+    container.appendChild(messageDiv);
+    
+    // Scroll xuống tin nhắn mới nhất
+    messageDiv.scrollIntoView({ behavior: 'smooth' });
+}
+
+function displayAllMessages() {
+    const container = document.getElementById('messageContainer');
+    if (!container) return;
+    
+    container.innerHTML = '';
+    messages.forEach(msg => displayMessage(msg));
+}
+
+function getTimeAgo(date) {
+    const now = new Date();
+    const diff = Math.floor((now - new Date(date)) / 1000);
+    
+    if (diff < 60) return 'Vừa xong';
+    if (diff < 3600) return `${Math.floor(diff / 60)} phút trước`;
+    if (diff < 86400) return `${Math.floor(diff / 3600)} giờ trước`;
+    return `${Math.floor(diff / 86400)} ngày trước`;
+}
+
+function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 console.log('📄 Project detail loaded');

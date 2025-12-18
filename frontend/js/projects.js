@@ -60,6 +60,10 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
+        // Kiểm tra user có phải admin không
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const isAdmin = user.userType === 'admin' || user.role === 'admin';
+
         projectsGrid.innerHTML = projects.map(project => `
             <div class="card hover-lift fade-in-up" data-project-id="${project._id}">
                 <span class="badge ${getBadgeClass(project.status)}">${getStatusText(project.status)}</span>
@@ -69,9 +73,10 @@ document.addEventListener('DOMContentLoaded', function() {
                 <p><strong>Ngân sách:</strong> ${formatCurrency(project.budget)}</p>
                 <p><strong>Hạn chót:</strong> ${formatDate(project.deadline)}</p>
                 <p style="margin-top: 1rem;">${highlightText(truncateText(project.description, 100), searchText)}</p>
-                <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
                     <a href="project-detail.html?id=${project._id}" class="btn btn-primary">Xem Chi Tiết</a>
                     ${project.status === 'open' ? '<button class="btn btn-secondary apply-btn">Ứng Tuyển</button>' : ''}
+                    ${isAdmin ? `<button class="btn delete-project-btn" style="background: #dc3545; color: white;" data-id="${project._id}">🗑️ Xóa</button>` : ''}
                 </div>
             </div>
         `).join('');
@@ -82,6 +87,36 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.apply-btn').forEach(btn => {
             btn.addEventListener('click', handleApply);
         });
+
+        // Thêm event listener cho nút xóa (admin)
+        document.querySelectorAll('.delete-project-btn').forEach(btn => {
+            btn.addEventListener('click', handleDeleteProject);
+        });
+    }
+
+    // Xử lý xóa dự án (admin)
+    async function handleDeleteProject(e) {
+        const projectId = e.target.dataset.id;
+        
+        if (!confirm('Bạn có chắc muốn xóa dự án này? Hành động này không thể hoàn tác!')) return;
+
+        try {
+            const response = await fetch(`http://localhost:3000/api/admin/projects/${projectId}`, {
+                method: 'DELETE'
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                alert('Đã xóa dự án thành công!');
+                loadProjects();
+            } else {
+                alert(data.message || 'Lỗi xóa dự án!');
+            }
+        } catch (error) {
+            console.error('Lỗi xóa dự án:', error);
+            alert('Có lỗi xảy ra. Vui lòng thử lại!');
+        }
     }
 
     // Lọc và tìm kiếm dự án

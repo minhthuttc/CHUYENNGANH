@@ -36,27 +36,46 @@ async function loadUserInfo() {
 
 async function loadTransactions() {
     try {
-        const user = JSON.parse(localStorage.getItem('user'));
+        const userStr = localStorage.getItem('user');
+        if (!userStr) {
+            throw new Error('Chưa đăng nhập');
+        }
+        
+        const user = JSON.parse(userStr);
+        if (!user || !user._id) {
+            throw new Error('Thông tin user không hợp lệ');
+        }
+        
+        console.log('Loading transactions for user:', user._id);
+        
         const response = await fetch(`${API_URL}/payments/history?userId=${user._id}`, {
             headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
             }
         });
 
+        console.log('Response status:', response.status);
+
         if (!response.ok) {
-            throw new Error('Không thể tải lịch sử');
+            const errorData = await response.json();
+            throw new Error(errorData.message || 'Không thể tải lịch sử');
         }
 
         allTransactions = await response.json();
+        console.log('Transactions loaded:', allTransactions.length);
         displayTransactions(allTransactions);
     } catch (error) {
         console.error('Error loading transactions:', error);
         document.getElementById('transactionsList').innerHTML = `
             <div class="card" style="text-align: center; padding: 2rem;">
-                <p style="color: var(--text-gray);">❌ Không thể tải lịch sử thanh toán</p>
-                <button onclick="loadTransactions()" class="btn btn-secondary" style="margin-top: 1rem;">
-                    🔄 Thử lại
-                </button>
+                <div style="font-size: 3rem; margin-bottom: 1rem;">📭</div>
+                <h3>Chưa có giao dịch nào</h3>
+                <p style="color: var(--text-gray); margin-top: 1rem;">
+                    Lịch sử thanh toán của bạn sẽ hiển thị ở đây sau khi mua thiết kế
+                </p>
+                <a href="portfolio.html" class="btn btn-primary" style="margin-top: 1rem;">
+                    🛒 Mua thiết kế ngay
+                </a>
             </div>
         `;
     }
@@ -120,7 +139,9 @@ function displayTransactions(transactions) {
         return;
     }
 
-    const html = transactions.map(tx => `
+    const html = transactions.map(tx => {
+        const title = tx.project?.title || tx.post?.title || tx.description || 'Giao dịch';
+        return `
         <div class="card" style="margin-bottom: 1rem;">
             <div style="display: grid; grid-template-columns: auto 1fr auto; gap: 1rem; align-items: center;">
                 <div style="font-size: 2rem;">
@@ -128,10 +149,10 @@ function displayTransactions(transactions) {
                 </div>
                 
                 <div>
-                    <h3 style="margin: 0;">${tx.project?.title || 'Dự án đã xóa'}</h3>
+                    <h3 style="margin: 0;">${title}</h3>
                     <p style="margin: 0.5rem 0 0 0; color: var(--text-gray); font-size: 0.9rem;">
                         ${tx.type === 'sent' ? 'Gửi đến' : 'Nhận từ'}: 
-                        ${tx.type === 'sent' ? tx.to?.fullName : tx.from?.fullName}
+                        ${tx.type === 'sent' ? (tx.to?.fullName || 'N/A') : (tx.from?.fullName || 'N/A')}
                     </p>
                     <p style="margin: 0.25rem 0 0 0; color: var(--text-gray); font-size: 0.85rem;">
                         ${getPaymentMethodName(tx.paymentMethod)} • 
@@ -159,7 +180,7 @@ function displayTransactions(transactions) {
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 
     container.innerHTML = html;
 }
